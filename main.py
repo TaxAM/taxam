@@ -22,44 +22,70 @@ for key, arg in enumerate(sys.argv[1:]):
 debug = True
 debug_counter = 0
 print("Loading taxonomy of reads...")
+
 counter = {}
-with open(args['reads_taxon_path']) as csvfile:
-    reader = csv.reader(csvfile, delimiter = '\t')
-    for taxonomies in reader:
-        
-        if taxonomies[0] != 'C':
-            continue
-
-        id_read = taxonomies[1]
-        taxon_pos = args['tax_level'] - 1
-        taxon = taxonomies[3].split()[taxon_pos].replace(';','')
-        if taxon == 'NA':
-            continue
-        else:
-            counter[id_read] = {taxon : 1}
-
-for a, b in counter.items():
-    print(a, b)
-
-print("Loading taxonomy of reference sequences...")
 taxon_ref = {}
-with open(args['ref_taxon_path']) as csvfile:
-    reader = csv.reader(csvfile, delimiter = '\t')
-    for taxonomies in reader:
+
+files_path_ref = {'reads_taxon_path': counter, 'ref_taxon_path': taxon_ref}
+
+for file_path_ref, t_file in files_path_ref.items():
+    with open(args[file_path_ref]) as csvfile:
+        reader = csv.reader(csvfile, delimiter = '\t')
+        for taxonomies in reader:
+            
+            if taxonomies[0] != 'C':
+                continue
+
+            id_line = taxonomies[1]
+            taxon_pos = args['tax_level'] - 1
+            taxon = taxonomies[3].split()[taxon_pos].replace(';','')
+            if taxon == 'NA':
+                continue
+            else:
+                if file_path_ref == 'reads_taxon_path':
+                    t_file[id_line] = {taxon : 1}
+                elif file_path_ref == 'ref_taxon_path':
+                    t_file[id_line] = taxon
+                    
+print(files_path_ref)
+
+# with open(args['reads_taxon_path']) as csvfile:
+#     reader = csv.reader(csvfile, delimiter = '\t')
+#     for taxonomies in reader:
         
-        if taxonomies[0] != 'C':
-            continue
+#         if taxonomies[0] != 'C':
+#             continue
 
-        id_read = taxonomies[1]
-        taxon_pos = args['tax_level'] - 1
-        taxon = taxonomies[3].split()[taxon_pos].replace(';','')
-        if taxon == 'NA':
-            continue
-        else:
-            taxon_ref[id_read] = taxon
+#         id_read = taxonomies[1]
+#         taxon_pos = args['tax_level'] - 1
+#         taxon = taxonomies[3].split()[taxon_pos].replace(';','')
+#         if taxon == 'NA':
+#             continue
+#         else:
+#             counter[id_read] = {taxon : 1}
 
-for a, b in taxon_ref.items():
-    print(a, b)
+# for a, b in counter.items():
+#     print(a, b)
+
+# print("Loading taxonomy of reference sequences...")
+
+# with open(args['ref_taxon_path']) as csvfile:
+#     reader = csv.reader(csvfile, delimiter = '\t')
+#     for taxonomies in reader:
+        
+#         if taxonomies[0] != 'C':
+#             continue
+
+#         id_read = taxonomies[1]
+#         taxon_pos = args['tax_level'] - 1
+#         taxon = taxonomies[3].split()[taxon_pos].replace(';','')
+#         if taxon == 'NA':
+#             continue
+#         else:
+#             taxon_ref[id_read] = taxon
+
+# for a, b in taxon_ref.items():
+#     print(a, b)
 
 print("Mapping reads on references...")
 dic_map = {}
@@ -71,5 +97,5 @@ with open(args['mapping_reads_ref_path']) as csvfile:
         id_contig = map_line[1]
         dic_map[id_read] = id_contig
 
-for a, b in dic_map.items():
-    print(a, b)
+# for a, b in dic_map.items():
+#     print(a, b)
