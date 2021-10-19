@@ -209,10 +209,12 @@ print(f'Counting reads:      {counter_reads}')
 # print(f'Counting contigs:    {counter_contigs}')
 print(f'Counting by mapping: {dic_map}')
 
+sorted_keys = sorted(dic_map)
+
 print('\nMatrix de contagem by mapping')
 print(f'Bicho\tQuantidade')
-for k, v in dic_map.items():
-    print(f'{k}\t{v}')
+for k in sorted_keys:
+    print(f'{k}\t{dic_map[k]}')
 if with_reads:
     print('+using reads')
 print(dic_map)
