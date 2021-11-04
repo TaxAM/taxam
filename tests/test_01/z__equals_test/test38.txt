@@ -1,0 +1,8 @@
+[Identical files!]
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\kleber_out_files\saida39.txt
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\mateus_out_files\#07_specie_test_mat_3.taxam
+
+[TAXONA	8] - [+]
+[TAXONB	3] - [+]
+[TAXONC	5] - [+]
+[TAXONE	1] - [+]

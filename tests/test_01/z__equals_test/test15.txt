@@ -1,0 +1,6 @@
+[Identical files!]
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\kleber_out_files\saida16.txt
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\mateus_out_files\#03_class_test_mat_4.taxam
+
+[C2	8] - [+]
+[C3	5] - [+]

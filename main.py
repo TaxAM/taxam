@@ -16,15 +16,15 @@ from util import *
 if not(verifyParamters(sys.argv[1:])):
     sys.exit("Wrong paramters")
 else:
-    if len(sys.argv[1:]) == 9:
+    if len(sys.argv[1:]) == 10:
         with_reads = True
-        titles = ('tax_level', 'reads_taxon_path', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_path', 'file_to_use')
+        titles = ('tax_level', 'reads_taxon_path', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
+    elif len(sys.argv[1:]) == 8:
+        with_reads = False
+        titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
     elif len(sys.argv[1:]) == 7:
         with_reads = False
-        titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_path', 'file_to_use')
-    elif len(sys.argv[1:]) == 6:
-        with_reads = False
-        titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_path')
+        titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_sep', 'output_path')
     else:
         exit('System aborted')
 
@@ -59,8 +59,11 @@ if with_reads:
 else:
     files_path_ref = {'ref_taxon_path': taxon_ref}
 
+# Se if this delimiter is valid
 args['contigs_sep'] = validDelimiter(args['contigs_sep'])        
 args['mpp_sep'] = validDelimiter(args['mpp_sep'])        
+args['output_sep'] = validDelimiter(args['output_sep'])
+
 # Couting taxon for each read
 if with_reads:
     ctrl = args['file_to_use'] # 1, 2 or 3
@@ -92,7 +95,7 @@ with open(args['ref_taxon_path']) as tax_file:
         if line[0] == 'C':
             contig_id = line[1]
             taxon_pos = args['tax_level'] - 1
-            taxon = line[3].split()[taxon_pos].replace(';','')
+            taxon = line[3].split(';')[taxon_pos].replace(' ','')
 
             if taxon == 'NA':
                 continue
@@ -141,10 +144,11 @@ if(not os.path.isdir('out_files/')):
     os.mkdir('out_files/')
 
 sorted_keys = sorted(matrix)
-line = 'Bicho\tQuandidade\n'
+# line = 'Bicho\tQuandidade\n'
+line = ''
 with open('out_files/' + args['output_path'], 'w') as file:
     for key in sorted_keys:
-        line += str(key) + '\t' + str(matrix[key]) + '\n'
+        line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
     file.write(line)
 
 
