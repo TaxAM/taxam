@@ -1,5 +1,10 @@
 import sys
 
+def is_ascii(s):
+    return all(ord(c) < 128 for c in s)
+
+
+
 def verifyParamters(pmtsList):
     if len(sys.argv[1:]) == 9:
         extensions = ['tax', 'tax', 'txt']
@@ -66,7 +71,7 @@ def replaceEscapeCode(word):
 def validDelimiter(word):
     # If len is just 1
     if len(word) == 1:        
-        if not word.isascii():
+        if not is_ascii(word):
             exit('Wrong delimiter!')
         else:
             return word

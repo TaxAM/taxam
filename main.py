@@ -1,6 +1,4 @@
-import os
-import csv
-# from typing import Counter
+import os, csv, platform
 from util import *
 
 # if len(sys.argv) != 7:
@@ -28,7 +26,7 @@ else:
     else:
         exit('System aborted')
 
-
+platform_name = platform.system()
 args = {}
 # Don't useing the first element cause it's file.py
 for key, arg in enumerate(sys.argv[1:]):
