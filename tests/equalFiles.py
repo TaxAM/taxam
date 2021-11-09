@@ -3,17 +3,19 @@ import os
 
 my_path = sys.argv[1]
 arr = os.listdir(my_path)
-side_01 = my_path + '\\' + arr[0]
-side_02 = my_path + '\\' + arr[1]
+side_01 = my_path + '//' + arr[0]
+side_02 = my_path + '//' + arr[1]
 # print(os.listdir(side_01))
 side_01_list = os.listdir(side_01)
 side_02_list = os.listdir(side_02)
+side_01_list.sort()
+side_02_list.sort()
 main_file = ''
 if len(side_01_list) == len(side_02_list):
     for key, value in enumerate(side_01_list):
 
-        file_01 = my_path + '\\' + arr[0] + '\\' + value
-        file_02 = my_path + '\\' + arr[1] + '\\' + side_02_list[key]
+        file_01 = my_path + '//' + arr[0] + '//' + value
+        file_02 = my_path + '//' + arr[1] + '//' + side_02_list[key]
         out_file_name = 'test' + str(key)
         # file_01 = sys.argv[1]
         # file_02 = sys.argv[2]

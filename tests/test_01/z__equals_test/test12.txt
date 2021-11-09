@@ -1,6 +1,6 @@
 [Identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\kleber_out_files\saida13.txt
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01\mateus_out_files\#03_class_test_mat_1.taxam
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01//kleber_out_files//saida13.txt
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01//mateus_out_files//#03_class_test_mat_1.taxam
 
 [C2	12] - [+]
 [C3	6] - [+]
