@@ -1,6 +1,8 @@
 import os, csv, platform
 from util import *
 
+#python main.py 1 "/users/mateus/downloads/kaiju_dbs/viruses_data_01/final_01/reads/out_viruses_sigle_names.tax" "/users/mateus/downloads/kaiju_dbs/viruses_data_01/final_01/contigs/contigs_named.tax" "/users/mateus/downloads/kaiju_dbs/viruses_data_01/final_01/mapping/final_mapping_01.txt" "\t" "\t" "\t" "\t" "#real_test_01.taxam" 1
+
 # if len(sys.argv) != 7:
 #     print("Usage: python main.py <taxonomy_level> <reads_taxonomy_file.tax> <ref_taxonomy_file.tax> <mapping_file_reads_to_ref.mma> <output_file_name.csv> <file_to_use>\n")
 #     print("Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species\n")
@@ -73,7 +75,10 @@ if with_reads:
             if line[0] == 'C':
                 read_id = line[1]
                 taxon_pos = args['tax_level'] - 1
-                taxon = line[3].split()[taxon_pos].replace(';','')
+                try:
+                    taxon = line[3].split()[taxon_pos].replace(';','')
+                except:
+                    taxon = 'NA'
                 if taxon == 'NA':
                     continue
                 # EX {'READA': ['R2']}
@@ -93,7 +98,13 @@ with open(args['ref_taxon_path']) as tax_file:
         if line[0] == 'C':
             contig_id = line[1]
             taxon_pos = args['tax_level'] - 1
-            taxon = line[3].split(';')[taxon_pos].replace(' ','')
+            try:
+                if line[3].split(';')[taxon_pos].replace(' ','') != '':
+                    taxon = line[3].split(';')[taxon_pos].strip()
+                else:
+                    taxon = 'NA'
+            except:
+                taxon = 'NA'
 
             if taxon == 'NA':
                 continue
@@ -132,22 +143,16 @@ for read, taxons in counter.items():
             addInMatrix(matrix, taxons, 0)
         # If use contigs
         elif ctrl == 2:
-            # print('o/')
             addInMatrix(matrix, taxons, 1)
     else:
-        # print('here')
         addInMatrix(matrix, taxons, 0)
 
 if(not os.path.isdir('out_files/')):
     os.mkdir('out_files/')
 
 sorted_keys = sorted(matrix)
-# line = 'Bicho\tQuandidade\n'
 line = ''
 with open('out_files/' + args['output_path'], 'w') as file:
     for key in sorted_keys:
         line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
     file.write(line)
-
-
-
