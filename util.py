@@ -80,3 +80,11 @@ def validDelimiter(word):
         return replaceEscapeCode(word)
     else:
         exit('Wrong delimiter!')
+
+
+def getPrefix(file, sep):
+    return file.split('.')[0].split(sep)[0]
+
+
+def getSuffix(file, sep):
+    return file.split('.')[0].split(sep)[1]
