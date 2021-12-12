@@ -43,13 +43,9 @@ def addInMatrix(matrix, taxon, level=5):
     global c
     try:
         c += 1
-        # print(f'Adcionou 1.')
-        # print(f'Contador: {c}. -> {taxon[level]}[{level}]')
         matrix[taxon[level]] += 1
     except:
         c += 1
-        # print(f'Adcionou 1.')
-        # print(f'Contador: {c}. -> {taxon[level]}')
         matrix[taxon[level]] = 1
 
 
