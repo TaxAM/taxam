@@ -10,39 +10,35 @@ from util import *
 #     sys.exit("System aborted")
 
 def execTaxam(tax_level, contigs_path, mapping_path, reads_path, reads_sep, contigs_sep, mapping_sep, output_sep, output_name, file_to_use):
-    
+    tmp_list = [tax_level, contigs_path, mapping_path, reads_path, reads_sep, contigs_sep, mapping_sep, output_sep, output_name, file_to_use]
     # Verifying if there are just necessary items in the terminal
-    if not(verifyParamters(sys.argv[1:])):
-        sys.exit("Wrong paramters")
+    if not(verifyExtension(tmp_list[1:4], 'txt')):
+        print('Wrong parameters')
+        sys.exit()
     else:
-        if len(sys.argv[1:]) == 10:
+        if reads_path != None:
             with_reads = True
-            titles = ('tax_level', 'reads_taxon_path', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
-        elif len(sys.argv[1:]) == 8:
-            with_reads = False
-            titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
-        elif len(sys.argv[1:]) == 7:
-            with_reads = False
-            titles = ('tax_level','ref_taxon_path', 'mapping_reads_ref_path',  'contigs_sep', 'mpp_sep', 'output_sep', 'output_path')
         else:
-            exit('System aborted')
+            with_reads = False
+        titles = ('tax_level', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_taxon_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
 
     args = {}
-    # Don't useing the first element cause it's file.py
-    for key, arg in enumerate(sys.argv[1:]):
+    # ASSOCIATING THE VALUES TO THE KEYS
+    for key, arg in enumerate(tmp_list):
         try:
             arg = int(arg)
         except:
             pass
-        # print(key, arg)
         args[titles[key]] = arg
         
     # Verify if tax_level and file_to_use are correct
     if args['tax_level'] not in [int(i) for i in range(1, 8)]:
-        sys.exit("tax_level informed is wrong!")
+        print('<tax_leve> information is wrong')
+        sys.exit()
     if with_reads:
         if args['file_to_use'] not in [int(i) for i in range(1, 4)]:
-            sys.exit("file_to_use informed is wrong!")
+            print("<file_to_use> informed is wrong!")
+            sys.exit()
 
     debug = True
     debug_counter = 0
@@ -57,7 +53,7 @@ def execTaxam(tax_level, contigs_path, mapping_path, reads_path, reads_sep, cont
     else:
         files_path_ref = {'ref_taxon_path': taxon_ref}
 
-    # Se if this delimiter is valid
+    # Seeing if this delimiter is valid
     args['contigs_sep'] = validDelimiter(args['contigs_sep'])        
     args['mpp_sep'] = validDelimiter(args['mpp_sep'])        
     args['output_sep'] = validDelimiter(args['output_sep'])
@@ -74,7 +70,10 @@ def execTaxam(tax_level, contigs_path, mapping_path, reads_path, reads_sep, cont
                     read_id = line[1]
                     taxon_pos = args['tax_level'] - 1
                     try:
-                        taxon = line[3].split()[taxon_pos].replace(';','')
+                        if line[3].split(';')[taxon_pos].replace(' ','') != '':
+                            taxon = line[3].split(';')[taxon_pos].strip()
+                        else:
+                            taxon = 'NA'
                     except:
                         taxon = 'NA'
                     if taxon == 'NA':
@@ -129,7 +128,6 @@ def execTaxam(tax_level, contigs_path, mapping_path, reads_path, reads_sep, cont
                     
             except Exception as e:
                 pass
-
     matrix = {}
     # Cleaning process and final counting process
     for read, taxons in counter.items():
@@ -150,8 +148,9 @@ def execTaxam(tax_level, contigs_path, mapping_path, reads_path, reads_sep, cont
 
     sorted_keys = sorted(matrix)
     line = ''
-    # with open('out_files/' + args['output_path'], 'w') as file:
-    #     for key in sorted_keys:
-    #         line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
-    #     file.write(line)
-    return line
+    tmp_folder = './tmp/'
+    for key in sorted_keys:
+        line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
+
+    with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
+        file.write(str(matrix))

@@ -3,31 +3,10 @@ import sys
 def is_ascii(s):
     return all(ord(c) < 128 for c in s)
 
-
-
-def verifyParamters(pmtsList):
-    if len(sys.argv[1:]) == 9:
-        extensions = ['tax', 'tax', 'txt']
-        for k, v in enumerate(pmtsList[1:4]):
-            v = v.replace('.\\', '')
-            # Find where the extension starts
-            index = v.index('.')
-            # Verify if this file is with the right extension
-            if extensions[k] != v[index + 1 :]:
-                return False
-
-    elif len(sys.argv[1:]) in [6, 7]:
-        extensions = ['tax', 'txt']
-        # print(pmtsList[1:3])
-        for k, v in enumerate(pmtsList[1:3]):
-            v = v.replace('.\\', '')
-            # Find where the extension starts
-            index = v.index('.')
-            # print(v[index + 1:], k)
-            # Verify if this file is with the right extension
-            if extensions[k] != v[index + 1 :]:
-                return False
-
+def verifyExtension(files, extention):
+    for file in files:
+        if file != None and extention != file.split('.')[-1]:
+            return False
     return True
 
 
@@ -68,19 +47,21 @@ def validDelimiter(word):
     # If len is just 1
     if len(word) == 1:        
         if not is_ascii(word):
-            exit('Wrong delimiter!')
+            print('Wronge delimiter: ' + word)
+            exit()
         else:
             return word
     # If len is 2, first character is \ and second isalpha()
     elif len(word) == 2 and word[0] == '\\' and word[1].isalpha():
         return replaceEscapeCode(word)
     else:
-        exit('Wrong delimiter!')
+        print('Wronge delimiter: ' + word)
+        exit()
 
 
 def getPrefix(file, sep):
-    return file.split('.')[0].split(sep)[0]
+    return file.split('.')[0].split(sep)[-2]
 
 
 def getSuffix(file, sep):
-    return file.split('.')[0].split(sep)[1]
+    return file.split('.')[0].split(sep)[-1]
