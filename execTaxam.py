@@ -21,6 +21,9 @@ parse.add_argument('-fu', '--file_to_use', help = 'In case of conflict, which fi
 
 parse.add_argument('-th', '--thread_number', help = 'Number of threads to be used.', type = int, action = 'store', default = 1)
 
+parse.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. Relative or Absolute.', type = int, action = 'store', default = 1, choices=[1,2])
+
+
 args = parse.parse_args()
 
 type_files = ['contigs', 'mapping',  'reads']
@@ -78,6 +81,26 @@ for name, file in file_names.items():
 if wrong_files != '':
     sys.exit('\nBad material:\n' + wrong_files)
 
+# GETTING NUMBER OF READS FOR WACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
+if terminal['matrix_mode'] == 2:
+    qtt_reads_sample = {}
+    print('Informe quantity of reads for each sample. If it is empty, the program will use reads_<sampleId>.txt as parameter.')
+    for file_name in file_names:
+        while True:
+            qtt_reads_sample[file_name] = input('Quatity of reads for sample ' + file_name + ': ')
+            if qtt_reads_sample[file_name] != '':
+                try:
+                    qtt_reads_sample[file_name] = int(qtt_reads_sample[file_name])
+                    if qtt_reads_sample[file_name] > 0:
+                        break
+                    print('You should give a integer number bigger than 0.')
+                except:
+                    print('You should give a integer number.')
+            else:
+                qtt_reads_sample[file_name] = None
+
+
+
 # CREATING PARAMETERS TO PASS FOR THREADS FOR execTaxam FUNCTION
 box = []
 my_args = []
@@ -112,7 +135,6 @@ if nt > ns:
     sys.exit('There are more threads than samples.')
 elif nt < 1:
     sys.exit('Informe a number of threads valid.')
-
 
 qtt_min = int(ns / nt)
 rest = ns % nt
@@ -167,16 +189,25 @@ for j in range(len(wights)):
     tmp_list.append(wights[j])
     for i in range(len(samples)):
         try:
-            tmp_list.append(str(data[samples[i]][wights[j]]))
+            # IF WE'RE USING ABSOLUTE MODE
+            if terminal['matrix_mode'] == 1:
+                tmp_list.append(str(data[samples[i]][wights[j]]))
+                print(str(data[samples[i]][wights[j]]))
+            # IF WE'RE USING RELATIVE MODE
+            else:
+                tmp_list.append('x')
         except:
             tmp_list.append('0')
     rows += terminal['output_sep'].join(tmp_list) + '\n'
     tmp_list.clear()
+    print()
 
 # CHECKING IF OUTPUT FILE EXISTS
 OUT_PUT_FOLDER = r'./output_taxam/'
 if(not os.path.isdir(OUT_PUT_FOLDER)):
         os.mkdir(OUT_PUT_FOLDER)
+
+print(f'\n{header}{rows}')
 
 # WRITTING OUTPUT
 with open(OUT_PUT_FOLDER + terminal['output_name'] + '.taxam', 'w') as f:
