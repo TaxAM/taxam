@@ -13,7 +13,7 @@ def verifyExtension(files, extention):
 
 def printDict(dict):
     for k, v in dict.items():
-        print(k, v)
+        print(k, ' -> ', v)
 
 
 global c

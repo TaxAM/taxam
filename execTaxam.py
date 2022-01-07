@@ -23,14 +23,15 @@ parse.add_argument('-th', '--thread_number', help = 'Number of threads to be use
 
 parse.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. Relative or Absolute.', type = int, action = 'store', default = 1, choices=[1,2])
 
-parse.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample in alphabetical order. If there are 3 samples: spa, spb, spc, use 100,150,275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance 0,125,0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store')
+parse.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample in alphabetical order. If there are 3 samples: spa, spb, spc, use 100,150,275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance 0,125,0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
 
 args = parse.parse_args()
 
 type_files = ['contigs', 'mapping',  'reads']
 terminal = args.__dict__.copy()
 # IT STORES A LIST WITH A QUANTITY OF READS FOR EACH SAMPLE
-terminal['reads_quantity'] = returnIntegerList(terminal['reads_quantity'])
+if terminal['reads_quantity'] != None:
+    terminal['reads_quantity'] = returnIntegerList(terminal['reads_quantity'])
 
 # SEEING IF THIS DIRECTORY EXISTS
 if(os.path.isdir(f'{terminal["folder_path"]}/')) and terminal['folder_path'] != None:
@@ -87,7 +88,7 @@ if wrong_files != '':
 
 
 # GETTING NUMBER OF READS FOR EACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
-if terminal['matrix_mode'] == 2:
+if terminal['matrix_mode'] == 2 and terminal['reads_quantity'] != None:
     qtt_reads_sample = {}
     if len(file_names) == len(terminal['reads_quantity']):
         for key, file_name in enumerate(file_names):
@@ -101,6 +102,7 @@ box = []
 my_args = []
 
 # STORING ARGUMENTS LIST IN A BIGGER LIST
+i = 0
 for key, value in file_names.items():
     box.append(terminal['tax_level'])
     for type in type_files:
@@ -114,6 +116,18 @@ for key, value in file_names.items():
     box.append(terminal['output_sep'])
     box.append(terminal['output_name'])
     box.append(terminal['file_to_use'])
+    box.append(terminal['matrix_mode'])
+    if terminal['reads_quantity'] != None:
+        # IF USER DIDN'T INFORME READS QUANTITY, THERE IS NO READ FILE AND IT WANTS TO DO RELATIVE CALCULATE, THAN
+        # box[3] IS READS PATH
+        if box[3] == None and terminal['matrix_mode'] == 2 and terminal['reads_quantity'][i] == 0:
+            sys.exit('Expected reads quantity.')
+        box.append(terminal['reads_quantity'][i])
+        i += 1
+    else:
+        if box[3] == None and terminal['matrix_mode'] == 2 and terminal['reads_quantity'] == None:
+            sys.exit('Expected reads quantity.')
+        box.append(terminal['reads_quantity'])
 
     my_args.append(box[:])
     box.clear()
@@ -160,11 +174,13 @@ else:
     sys.exit(tmp_folder + ' directory doesnt exist.')
 # GETTING AND STORING DICTIONARY FROM TXT FILES
 data = {}
+terminal['reads_quantity'] = {}
 for file in files:
     with open(tmp_folder + file, 'r') as f:
-        line = f.readline()
+        line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';')
         data[getSuffix(file,'_')] = eval(line.strip())
 
+# DELETE FOLDER
 shutil.rmtree(tmp_folder)
 # SORTING SAMPLE KEYS IN ASCENDING ORDER
 samples = sorted(list(data.keys()), key=lambda x: x.lower())
@@ -186,23 +202,20 @@ for j in range(len(wights)):
         try:
             # IF WE'RE USING ABSOLUTE MODE
             if terminal['matrix_mode'] == 1:
+                # Getting each absolute value of each animal from each sample
                 tmp_list.append(str(data[samples[i]][wights[j]]))
-                print(str(data[samples[i]][wights[j]]))
             # IF WE'RE USING RELATIVE MODE
             else:
-                tmp_list.append('x')
+                tmp_list.append(str(data[samples[i]][wights[j]] / int(terminal['reads_quantity'][samples[i]])))
         except:
             tmp_list.append('0')
     rows += terminal['output_sep'].join(tmp_list) + '\n'
     tmp_list.clear()
-    print()
 
 # CHECKING IF OUTPUT FILE EXISTS
 OUT_PUT_FOLDER = r'./output_taxam/'
 if(not os.path.isdir(OUT_PUT_FOLDER)):
         os.mkdir(OUT_PUT_FOLDER)
-
-print(f'\n{header}{rows}')
 
 # WRITTING OUTPUT
 with open(OUT_PUT_FOLDER + terminal['output_name'] + '.taxam', 'w') as f:

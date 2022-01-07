@@ -21,7 +21,7 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                 with_reads = True
             else:
                 with_reads = False
-            titles = ('tax_level', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_taxon_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use')
+            titles = ('tax_level', 'ref_taxon_path', 'mapping_reads_ref_path', 'reads_taxon_path', 'reads_sep', 'contigs_sep', 'mpp_sep', 'output_sep', 'output_path', 'file_to_use', 'matrix_mode', 'reads_quantity')
 
         args = {}
         # ASSOCIATING THE VALUES TO THE KEYS
@@ -58,19 +58,26 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         args['contigs_sep'] = validDelimiter(args['contigs_sep'])        
         args['mpp_sep'] = validDelimiter(args['mpp_sep'])        
         args['output_sep'] = validDelimiter(args['output_sep'])
-
         #STATUS
         print('th: ' + str(number_of_thread) +  ' -> Contigs: ' + args['ref_taxon_path'])
-        print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
         print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
 
         # Couting taxon for each read
         if with_reads:
+            print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
             ctrl = args['file_to_use'] # 1, 2 or 3
             args['reads_sep'] = validDelimiter(args['reads_sep'])        
             with open(args['reads_taxon_path']) as tax_file:
                 reader = csv.reader(tax_file, delimiter = args['reads_sep'])
+                qtt_read_lines_counter = 0
                 for line in reader:
+                    # if user wants that the program counts reads number for this sample
+                    if args['matrix_mode'] == 2:
+                        if line[0] in ['C', 'U']:
+                            if args['reads_quantity'] in [0, None]:
+                                qtt_read_lines_counter += 1
+                            else:
+                                qtt_read_lines_counter = args['reads_quantity']
                     # if this read is classified
                     if line[0] == 'C':
                         read_id = line[1]
@@ -89,6 +96,8 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                             counter[read_id].append(taxon)
                         else:
                             counter[read_id] = [taxon]
+            args['reads_quantity'] = qtt_read_lines_counter
+            
 
 
         # Stores which taxon is each contig
@@ -159,4 +168,4 @@ def execTaxam(my_args_lists, number_of_thread = 0):
             line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
 
         with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
-            file.write(str(matrix))
+            file.write(str(matrix) + ';' + str(args['reads_quantity']))
