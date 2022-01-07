@@ -23,11 +23,14 @@ parse.add_argument('-th', '--thread_number', help = 'Number of threads to be use
 
 parse.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. Relative or Absolute.', type = int, action = 'store', default = 1, choices=[1,2])
 
+parse.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample in alphabetical order. If there are 3 samples: spa, spb, spc, use 100,150,275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance 0,125,0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store')
 
 args = parse.parse_args()
 
 type_files = ['contigs', 'mapping',  'reads']
 terminal = args.__dict__.copy()
+# IT STORES A LIST WITH A QUANTITY OF READS FOR EACH SAMPLE
+terminal['reads_quantity'] = returnIntegerList(terminal['reads_quantity'])
 
 # SEEING IF THIS DIRECTORY EXISTS
 if(os.path.isdir(f'{terminal["folder_path"]}/')) and terminal['folder_path'] != None:
@@ -46,6 +49,7 @@ type, key = 'None', 'None'
 wrong_files = ''
 
 # CHECKING IF ALL FILES ARE VALID AND STORING THEM IN A DICTIONARY
+# SORTED IN ALPHABETICAL ORDER
 for file in files:
     if len(file.split('_')) == 2:    
         type = getPrefix(file, '_')
@@ -81,24 +85,15 @@ for name, file in file_names.items():
 if wrong_files != '':
     sys.exit('\nBad material:\n' + wrong_files)
 
-# GETTING NUMBER OF READS FOR WACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
+
+# GETTING NUMBER OF READS FOR EACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
 if terminal['matrix_mode'] == 2:
     qtt_reads_sample = {}
-    print('Informe quantity of reads for each sample. If it is empty, the program will use reads_<sampleId>.txt as parameter.')
-    for file_name in file_names:
-        while True:
-            qtt_reads_sample[file_name] = input('Quatity of reads for sample ' + file_name + ': ')
-            if qtt_reads_sample[file_name] != '':
-                try:
-                    qtt_reads_sample[file_name] = int(qtt_reads_sample[file_name])
-                    if qtt_reads_sample[file_name] > 0:
-                        break
-                    print('You should give a integer number bigger than 0.')
-                except:
-                    print('You should give a integer number.')
-            else:
-                qtt_reads_sample[file_name] = None
-
+    if len(file_names) == len(terminal['reads_quantity']):
+        for key, file_name in enumerate(file_names):
+            qtt_reads_sample[file_name] = terminal['reads_quantity'][key]
+    else:
+        sys.exit('You informed more or less number of reads for each sample.')
 
 
 # CREATING PARAMETERS TO PASS FOR THREADS FOR execTaxam FUNCTION

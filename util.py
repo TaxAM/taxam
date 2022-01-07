@@ -65,3 +65,15 @@ def getPrefix(file, sep):
 
 def getSuffix(file, sep):
     return file.split('.')[0].split(sep)[-1]
+
+
+def returnIntegerList(str = ''):
+    tmp_list = str.split(',')
+    final_list = []
+    for item in tmp_list:
+        try:
+            if item != '':
+                final_list.append(int(item))
+        except:
+            sys.exit('One or more items from reads quantity are not integer.')
+    return final_list[:]
