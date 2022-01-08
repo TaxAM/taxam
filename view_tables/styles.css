@@ -1,0 +1,18 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+.simple{
+    width: max-content;
+    padding: 10px;
+}
+
+.tableResult{
+    border: 2px solid #ccc;
+}
+
+.tableResult td{
+    border: 2px solid #ccc;
+    padding: 5px;
+
+}

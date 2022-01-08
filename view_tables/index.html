@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="core.js"></script>
+    <title>View Tables</title>
+</head>
+<body>
+    <div class="simple">
+        Caminho do arquivo:
+        <input type="file" id="file">
+    </div>
+    <div class="simple">
+        Tipo de visualização:
+        <input type="radio" name="modeView" id="textRadio">
+        <label for="textRadio">Textual</label>
+        <input type="radio" name="modeView" id="graphicRadio">
+        <label for="graphicRadio">Gráfica</label>
+        <input type="radio" name="modeView" id="bothRadio">
+        <label for="bothRadio">Ambos</label>
+    </div>
+    <div class="simple">
+        Número máximo de táxons ou percentual mínimo (textual) por amostra[opcional]:
+        <br>
+        <input type="number" name="numberByText" id="numberByTextInput">
+    </div>
+    <div class="simple">
+        Número máximo de táxons ou percentual mínimo (gráfica) por amostra[obrigatório]:
+        <br>
+        <input type="number" name="numberByGraphic" id="numberByGraphicInput">
+    </div>
+    <div class="simple">
+        <input type="button" value="Visualizar" id="viewResults" onclick="viewResult()">
+    </div>
+
+    <!-- <table class="tableResult">
+        <tbody>
+            <tr>
+                <td>Menor valor</td>
+                <td>Valor médio</td>
+                <td>Valor pouco acima da média</td>
+                <td>Maior valor</td>
+            </tr>
+            <tr>
+                <td style="background-color:rgba(0,0,255,1.0);">&nbsp;</td>
+                <td style="background-color:rgba(0,0,255,0.1);">&nbsp;</td>
+                <td style="background-color:rgba(255,0,0,0.1);">&nbsp;</td>
+                <td style="background-color:rgba(255,0,0,1.0);">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table> -->
+</body>
+</html>
