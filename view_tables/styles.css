@@ -8,11 +8,13 @@
 }
 
 .tableResult{
-    border: 2px solid #ccc;
+    /* border: 2px solid #ccc; */
+    border-collapse: collapse;
 }
 
 .tableResult td{
-    border: 2px solid #ccc;
     padding: 5px;
-
+}
+.tableResult tr{
+    border-bottom: 2px solid #282828;
 }

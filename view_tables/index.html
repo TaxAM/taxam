@@ -13,22 +13,22 @@
     </div>
     <div class="simple">
         Tipo de visualização:
-        <input type="radio" name="modeView" id="textRadio">
+        <input type="radio" name="modeView" id="textRadio" value="1" checked>
         <label for="textRadio">Textual</label>
-        <input type="radio" name="modeView" id="graphicRadio">
+        <input type="radio" name="modeView" id="graphicRadio" value="2">
         <label for="graphicRadio">Gráfica</label>
-        <input type="radio" name="modeView" id="bothRadio">
+        <input type="radio" name="modeView" id="bothRadio" value="3">
         <label for="bothRadio">Ambos</label>
     </div>
     <div class="simple">
         Número máximo de táxons ou percentual mínimo (textual) por amostra[opcional]:
         <br>
-        <input type="number" name="numberByText" id="numberByTextInput">
+        <input type="number" name="numberByText" id="numberByTextInput" step="0.01"  min="0" value="0">
     </div>
     <div class="simple">
         Número máximo de táxons ou percentual mínimo (gráfica) por amostra[obrigatório]:
         <br>
-        <input type="number" name="numberByGraphic" id="numberByGraphicInput">
+        <input type="number" name="numberByGraphic" id="numberByGraphicInput" min="0" value="0">
     </div>
     <div class="simple">
         <input type="button" value="Visualizar" id="viewResults" onclick="viewResult()">
