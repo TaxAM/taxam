@@ -108,7 +108,6 @@ function topValuesBySample(matrix, biggest){
             }
 
             for(let j = 1; j < matrix.length; j++){
-                console.log(matrix[j][i])
                 if (biggest > 1){
                     if(matrix[j][i] / columnSum < topValuesRange){
                         matrix[j][i] = -1;
@@ -213,7 +212,6 @@ function viewResult(){
     }
 
     let file = document.getElementById("file");
-    console.log(file.files)
     if(file.files.length > 0){
         let fr = new FileReader();
         fr.readAsText(file.files[0]);
@@ -239,4 +237,43 @@ function viewResult(){
         alert('YOU SHOULD INFORM A MATRIX AS A TXT FILE!')
     }
 
+}
+function test(){
+    var graphicValue = document.getElementById('numberByGraphicInput').value
+    var distanceMax = 150;
+    // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
+    var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
+    var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
+    let divResults = document.getElementById('divResults');
+    
+    divResults.innerHTML += '<div class="pieContainer" id="pieContainer"><div class="pieBackground"></div></div>';
+    let pieContainer = document.getElementById('pieContainer');
+    let rotate = 0;
+    for(let i = 0; i < testValues.length; i++){
+        part = testValues[i];
+        pieContainer.innerHTML += '<div id="pieSlice'+ i +'" class="hold"><div class="pie"></div></div>';
+        console.log(360 * (part / 1000 * 10))
+        rotate += 360 * (part / 1000 * 10)
+        if (part <= 50){
+            var currentDistance = (part * 2 / 100) * 150;
+    
+            var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
+            var slice = 'polygon('+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 50% -200%)';
+            console.log(slice)
+        }else if(part < 100){
+    
+            var currentDistance = (50 * 2 / 100) * 150;
+            var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
+            var rest = part - 50;
+            var currentDistance = (rest * 2 / 100) * 150;
+            Lx += currentDistance, Ly += currentDistance, Rx -= currentDistance, Ry += currentDistance;
+            var slice = 'polygon(-100% 0%, '+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 200% 0%)'
+            console.log(slice)
+            
+        }else{
+            var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
+        }
+        document.getElementById('pieSlice' + i).style.clipPath = slice;
+        document.getElementById('pieSlice' + i).style.transform = 'rotate('+ rotate +'deg)';
+    }
 }

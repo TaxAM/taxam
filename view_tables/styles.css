@@ -18,3 +18,97 @@
 .tableResult tr{
     border-bottom: 2px solid #282828;
 }
+
+
+/* Stackoverflow solution */
+
+/* .pieBackground {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+  }  */
+  .pieContainer {
+    height: 150px;
+    position: relative;
+  }
+
+  .pieBackground {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+  } 
+
+  .pie {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    
+  }
+  
+  .hold {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    
+  }
+  
+  #pieSlice0 {
+    background-color: rgb(216, 180, 19);
+    position: absolute;
+  }
+
+  #pieSlice1 {
+    /* transform: rotate(30deg); */
+    background-color: #0a0;
+    position: absolute;
+  }
+  
+  #pieSlice2 {
+    background-color: rgb(33, 91, 158);
+    position: absolute;
+  }
+  
+  #pieSlice3 {
+    background-color: rgb(113, 21, 156);
+    position: absolute;
+  }
+  
+  #pieSlice4 {
+     background-color: rgb(255, 15, 115);
+     position: absolute;
+    }
+    
+  #pieSlice5 {
+     background-color: rgb(15, 255, 175);
+     position: absolute;
+    }
+
+  #pieSlice6 {
+     background-color: rgb(99, 15, 255);
+     position: absolute;
+    }
+    
+  #pieSlice7 {
+     background-color: rgb(55, 175, 91);
+     position: absolute;
+    }
+
+  #pieSlice8 {
+     background-color: rgb(218, 129, 78);
+     position: absolute;
+    }
+    
+  #pieSlice9 {
+     background-color: rgb(109, 250, 74);
+     position: absolute;
+    }
+    
+  #pieSlice10 {
+     background-color: rgb(83, 173, 169);
+     position: absolute;
+    }
+    
