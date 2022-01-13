@@ -1,5 +1,6 @@
 *{
     font-family: 'Roboto', sans-serif;
+    --pie-position-mode : relative;
 }
 
 .simple{
@@ -57,58 +58,58 @@
   }
   
   #pieSlice0 {
-    background-color: rgb(216, 180, 19);
-    position: absolute;
+    background-color: rgba(216, 180, 19, 0.65);
+    position: var(--pie-position-mode);
   }
-
+  
   #pieSlice1 {
     /* transform: rotate(30deg); */
-    background-color: #0a0;
-    position: absolute;
+    background-color: rgba(26, 158, 48, 0.65);
+    position: var(--pie-position-mode);
   }
   
   #pieSlice2 {
-    background-color: rgb(33, 91, 158);
-    position: absolute;
+    background-color: rgba(33, 91, 158, 0.65);
+    position: var(--pie-position-mode);
   }
   
   #pieSlice3 {
-    background-color: rgb(113, 21, 156);
-    position: absolute;
+    background-color: rgb(113, 21, 156, 0.65);
+    position: var(--pie-position-mode);
   }
   
   #pieSlice4 {
-     background-color: rgb(255, 15, 115);
-     position: absolute;
+     background-color: rgba(255, 15, 115, 0.65);
+     position: var(--pie-position-mode);
     }
     
   #pieSlice5 {
-     background-color: rgb(15, 255, 175);
-     position: absolute;
+     background-color: rgba(15, 255, 175, 0.65);
+     position: var(--pie-position-mode);
     }
 
   #pieSlice6 {
-     background-color: rgb(99, 15, 255);
-     position: absolute;
+     background-color: rgba(99, 15, 255, 0.65);
+     position: var(--pie-position-mode);
     }
     
   #pieSlice7 {
-     background-color: rgb(55, 175, 91);
-     position: absolute;
+     background-color: rgba(55, 175, 91, 0.65);
+     position: var(--pie-position-mode);
     }
 
   #pieSlice8 {
-     background-color: rgb(218, 129, 78);
-     position: absolute;
+     background-color: rgba(218, 129, 78, 0.65);
+     position: var(--pie-position-mode);
     }
     
   #pieSlice9 {
-     background-color: rgb(109, 250, 74);
-     position: absolute;
+     background-color: rgba(109, 250, 74, 0.65);
+     position: var(--pie-position-mode);
     }
     
   #pieSlice10 {
-     background-color: rgb(83, 173, 169);
-     position: absolute;
+     background-color: rgba(83, 173, 169, 0.65);
+     position: var(--pie-position-mode);
     }
     

@@ -1,3 +1,7 @@
+function degrees2radius(degrees){
+    return degrees * Math.PI / 180;
+}
+
 function negativeRow(myList){
     c = 0;
     for(let i = 1; i < myList.length; i++){
@@ -240,32 +244,63 @@ function viewResult(){
 }
 function test(){
     var graphicValue = document.getElementById('numberByGraphicInput').value
+    var circleLength = 2 * Math.PI * 50
     var distanceMax = 150;
-    // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
-    var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
-    var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
+    var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
+    // var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
+    // var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
+    // var testValues = [50, 50].sort(function(a, b) {return b - a;});
+    // var testValues = [33.33, 33.33, 33.33].sort(function(a, b) {return b - a;});
+    // var testValues = [23, 25, 27, 29].sort(function(a, b) {return b - a;});
+    // var testValues = [25, 25, 25, 25].sort(function(a, b) {return b - a;});
     let divResults = document.getElementById('divResults');
     
     divResults.innerHTML += '<div class="pieContainer" id="pieContainer"><div class="pieBackground"></div></div>';
     let pieContainer = document.getElementById('pieContainer');
     let rotate = 0;
+    let radius = 150;
     for(let i = 0; i < testValues.length; i++){
         part = testValues[i];
         pieContainer.innerHTML += '<div id="pieSlice'+ i +'" class="hold"><div class="pie"></div></div>';
         console.log(360 * (part / 1000 * 10))
-        rotate += 360 * (part / 1000 * 10)
+        // rotate += 360 * (part / 1000 * 10)
+        console.log(`Part: ${part} -> rotate: ${360 * (part / 1000 * 10)}`)
         if (part <= 50){
-            var currentDistance = (part * 2 / 100) * 150;
+            var specialInnerAngle = 360 * ((part / 2) / 1000 * 10)
+            var sideInnerAngles = (180 - specialInnerAngle) / 2
+            var thirdInnerAngle = sideInnerAngles - 45
+            var degreesInRadius = degrees2radius(specialInnerAngle)
+            //  a this, b anc c = radius
+            console.log(`specialInnerAngle: ${specialInnerAngle}`);
+            var archBasePerimeter = Math.sqrt( 2 * (radius * radius) - 2 * radius * radius * Math.cos(degreesInRadius))
+            // var archBasePerimeter = Math.sqrt( 2 * (radius * radius)) / 2
+            // semPerimeter
+            // var p = (2 * radius + archBasePerimeter) / 2
+            // var triangleArea = Math.sqrt(p * (p - radius) * (p - radius) * (p - archBasePerimeter));
+            // var triangleHigh  = 4 * triangleArea / radius
+            // console.warn(`triangle high 1: ${triangleHigh}`)
+            // var currentDistance = (part * 2 / 100) * distanceMax;
+            // var currentDistance = archBasePerimeter * 2;
+            var hypotenuse = (archBasePerimeter * Math.sin(degrees2radius(sideInnerAngles))) / Math.sin(degrees2radius(180 - (sideInnerAngles + sideInnerAngles - 45)));
+            var currentDistance = (hypotenuse * Math.sin(degrees2radius(45))) / Math.sin(degrees2radius(90));
+            // var catetoDistance = (hypotenuse * Math.sin(degrees2radius(45))) / Math.sin(degrees2radius(90));
+            console.log(`AHAHA: ${sideInnerAngles + sideInnerAngles - 45}`)
+            console.log(`archBasePerimeter: ${archBasePerimeter}`)
+            console.log(`specialInnerAngle: ${specialInnerAngle}`)
+            console.log(`specialInnerAngle sin(): ${ Math.sin(degrees2radius(specialInnerAngle))}`)
+            console.log(`lostAngle: ${180 - (sideInnerAngles + sideInnerAngles - 45)}`)
+            console.log(`lostAngle sin(): ${degrees2radius(180 - (sideInnerAngles + sideInnerAngles - 45))}`)
+            console.log(`hypotenuse: ${hypotenuse}`)
     
             var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
             var slice = 'polygon('+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 50% -200%)';
-            console.log(slice)
+            console.log(slice)  
         }else if(part < 100){
     
-            var currentDistance = (50 * 2 / 100) * 150;
+            var currentDistance = (50 * 2 / 100) * distanceMax;
             var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
             var rest = part - 50;
-            var currentDistance = (rest * 2 / 100) * 150;
+            var currentDistance = (rest * 2 / 100) * distanceMax;
             Lx += currentDistance, Ly += currentDistance, Rx -= currentDistance, Ry += currentDistance;
             var slice = 'polygon(-100% 0%, '+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 200% 0%)'
             console.log(slice)
