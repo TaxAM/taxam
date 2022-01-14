@@ -1,6 +1,7 @@
 *{
     font-family: 'Roboto', sans-serif;
-    --pie-position-mode : absolute;
+    --pizza-position-mode : absolute;
+    --pizza-size : 200px;
 }
 
 .simple{
@@ -23,93 +24,37 @@
 
 /* Stackoverflow solution */
 
-/* .pieBackground {
+/* .pizzaBackground {
     position: absolute;
     width: 150px;
     height: 150px;
     border-radius: 100%;
   }  */
-  .pieContainer {
-    height: 150px;
+  .pizzaContainer {
+    height: var(--pizza-size);
     position: relative;
   }
 
-  .pieBackground {
+  .pizzaBackground {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: var(--pizza-size);
+    height: var(--pizza-size);
     border-radius: 100%;
-    /* box-shadow: 0px 0px 8px rgba(0,0,0,0.5); */
   } 
-
-  .pie {
+  
+  .pizza {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: var(--pizza-size);
+    height: var(--pizza-size);
     border-radius: 100%;
     
   }
   
   .hold {
-    width: 150px;
-    height: 150px;
+    width: var(--pizza-size);
+    height: var(--pizza-size);
     border-radius: 100%;
     
   }
-  
-  #pieSlice0 {
-    background-color: rgba(216, 180, 19, 0.65);
-    position: var(--pie-position-mode);
-  }
-  
-  #pieSlice1 {
-    /* transform: rotate(30deg); */
-    background-color: rgba(26, 158, 48, 0.65);
-    position: var(--pie-position-mode);
-  }
-  
-  #pieSlice2 {
-    background-color: rgba(33, 91, 158, 0.65);
-    position: var(--pie-position-mode);
-  }
-  
-  #pieSlice3 {
-    background-color: rgb(113, 21, 156, 0.65);
-    position: var(--pie-position-mode);
-  }
-  
-  #pieSlice4 {
-     background-color: rgba(255, 15, 115, 0.65);
-     position: var(--pie-position-mode);
-    }
-    
-  #pieSlice5 {
-     background-color: rgba(15, 255, 175, 0.65);
-     position: var(--pie-position-mode);
-    }
 
-  #pieSlice6 {
-     background-color: rgba(99, 15, 255, 0.65);
-     position: var(--pie-position-mode);
-    }
-    
-  #pieSlice7 {
-     background-color: rgba(55, 175, 91, 0.65);
-     position: var(--pie-position-mode);
-    }
-
-  #pieSlice8 {
-     background-color: rgba(218, 129, 78, 0.65);
-     position: var(--pie-position-mode);
-    }
-    
-  #pieSlice9 {
-     background-color: rgba(109, 250, 74, 0.65);
-     position: var(--pie-position-mode);
-    }
-    
-  #pieSlice10 {
-     background-color: rgba(83, 173, 169, 0.65);
-     position: var(--pie-position-mode);
-    }
-    
+  .slice:hover{box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);}

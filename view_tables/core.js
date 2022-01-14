@@ -1,3 +1,23 @@
+
+// hsl is a method how uses variable h as a chromatic circle
+function hslGenerator(numberColors){
+    if(numberColors < 5){
+        var circleRange = 70;
+    }else if(numberColors < 9){
+        var circleRange = 180;
+    }else{
+        var circleRange = 360;
+    }
+    var colors = [], c = 0, color = '', hRange = Math.floor(circleRange / numberColors), h = 0;
+        while(c < numberColors){
+            h = h + hRange <= circleRange ? h + hRange : circleRange;
+            color = `hsl(${h}, 90%, 60%)`;
+            colors.push(color);
+            c++;
+        }
+    return colors;
+}
+
 function degrees2radius(degrees){
     return degrees * Math.PI / 180;
 }
@@ -206,8 +226,81 @@ function tableConstructor(matrix, values, biggest){
     return table;
 }
 
+function graphicConstructor(){
+    function getCatetosDistance(thisPart){
+        // Half angle of slice
+        var specialInnerAngle = 360 * ((thisPart / 2) / 1000 * 10)
+        // Value of inner angles from triangle formed by radius and Arch Base
+        var sideInnerAngles = (180 - specialInnerAngle) / 2
+        var degreesInRadius = degrees2radius(specialInnerAngle)
+        //  a this, b anc c = radius
+        // Distance from beggining until end of half arch formed 
+        var archBasePerimeter = Math.sqrt( 2 * (radius * radius) - 2 * radius * radius * Math.cos(degreesInRadius))
+        // Hypotenuse formeda by 
+        var hypotenuse = (archBasePerimeter * Math.sin(degrees2radius(sideInnerAngles))) / Math.sin(degrees2radius(180 - (sideInnerAngles + sideInnerAngles - 45)));
+        
+        var currentDistance = (hypotenuse * Math.sin(degrees2radius(45))) / Math.sin(degrees2radius(90));
+
+        return currentDistance;
+    }
+
+    var graphicValue = document.getElementById('numberByGraphicInput').value
+    var circleLength = 2 * Math.PI * 50
+    var distanceMax = 150;
+    // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
+    // var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
+    // var testValues = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5].sort(function(a, b) {return b - a;});
+    // var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
+    // var testValues = [50, 50].sort(function(a, b) {return b - a;});
+    // var testValues = [33.33, 33.33, 33.33].sort(function(a, b) {return b - a;});
+    // var testValues = [70, 28, 2].sort(function(a, b) {return b - a;});
+    var testValues = [25, 20, 55].sort(function(a, b) {return b - a;});
+    // var testValues = [20, 20, 20, 20, 20].sort(function(a, b) {return b - a;});
+    // var testValues = [100].sort(function(a, b) {return b - a;});
+    
+    divResults.innerHTML += '<div class="pizzaContainer" id="pizzaContainer"><div class="pizzaBackground"></div></div>';
+    let pizzaContainer = document.getElementById('pizzaContainer');
+    let rotate = 0;
+    let radius = 150;
+    let last = 0;
+    colors = hslGenerator(testValues.length);
+    for(let i = 0; i < testValues.length; i++){
+        part = testValues[i];
+        pizzaContainer.innerHTML += '<div id="pizzaSlice'+ i +'" class="hold slice"><div class="pizza"></div></div>';
+        // How much the slice need to rotate to fit in the graphic
+        // Current Percentegem 360º + Last Slice Percentegem 360º - Current Slice Percentegem 360º
+        rotate += 360 * (part / 1000 * 10) + (last - 360 * (part / 1000 * 10))/2
+        // Last Slice Percentegem 360º
+        last = 360 * (part / 1000 * 10)
+        if (part < 100){
+            let firstPart = part - 50 > 0 ? 50 : part;
+            let secondPart = part - 50 > 0 ? part - 50 : 0;
+            if (firstPart <= 50){
+                var currentDistance = getCatetosDistance(firstPart);
+                var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
+                var slice = `polygon( ${Lx}% ${Ly}%, 50% 50%, ${Rx}% ${Ry}%, 50% -200%)`;
+            }
+            if(secondPart > 0){
+                var currentDistance = getCatetosDistance(firstPart);
+                Lx += currentDistance, Ly += currentDistance, Rx -= currentDistance, Ry += currentDistance;
+                var slice = `polygon(-100% 0%, ${Lx}% ${Ly}%, 50% 50%, ${Rx}% ${Ry}%, 200% 0%)`;
+            }
+        
+        }else{
+            var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
+        }
+        var sliceElement = document.getElementById(`pizzaSlice${i}`);
+        sliceElement.style.clipPath = slice;
+        sliceElement.style.transform = 'rotate('+ rotate +'deg)';
+        sliceElement.style.backgroundColor = colors[i];
+        sliceElement.style.position = 'absolute';
+        
+    }
+}
+
 function viewResult(){
-    let viewModeRadios = document.getElementsByName('modeView');
+    const divResults = document.getElementById('divResults');
+    const viewModeRadios = document.getElementsByName('modeView');
     for(let i = 0; i < viewModeRadios.length; i++){
         if (viewModeRadios[i].checked == true){
             var viewMode = viewModeRadios[i].value;
@@ -230,92 +323,18 @@ function viewResult(){
             values.sort(function(a, b) {return a - b;});
             // Building Matrix
             matrix = topValuesBySample(matrix, biggest);
-            let divResults = document.getElementById('divResults');
+            divResults.innerHTML = '';
             if([1, 3].includes(parseInt(viewMode))){
                 // Building Table
                 table = tableConstructor(matrix, values, biggest);
                 divResults.innerHTML = table;
+            }
+            if([2, 3].includes(parseInt(viewMode))){
+                graphicConstructor();
             }
         }
     }else{
         alert('YOU SHOULD INFORM A MATRIX AS A TXT FILE!')
     }
 
-}
-function test(){
-    var graphicValue = document.getElementById('numberByGraphicInput').value
-    var circleLength = 2 * Math.PI * 50
-    var distanceMax = 150;
-    // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
-    // var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
-    // var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
-    // var testValues = [50, 50].sort(function(a, b) {return b - a;});
-    // var testValues = [33.33, 33.33, 33.33].sort(function(a, b) {return b - a;});
-    var testValues = [70, 28, 2].sort(function(a, b) {return b - a;});
-    // var testValues = [25, 25, 25, 25].sort(function(a, b) {return b - a;});
-    let divResults = document.getElementById('divResults');
-    
-    divResults.innerHTML += '<div class="pieContainer" id="pieContainer"><div class="pieBackground"></div></div>';
-    let pieContainer = document.getElementById('pieContainer');
-    let rotate = 0;
-    let radius = 150;
-    let last = 0;
-    for(let i = 0; i < testValues.length; i++){
-        part = testValues[i];
-        pieContainer.innerHTML += '<div id="pieSlice'+ i +'" class="hold"><div class="pie"></div></div>';
-        console.log(360 * (part / 1000 * 10))
-        // How much the slice need to rotate to fit in the graphic
-        // Current Percentegem 360º + Last Slice Percentegem 360º - Current Slice Percentegem 360º
-        rotate += 360 * (part / 1000 * 10) + (last - 360 * (part / 1000 * 10))/2
-        // Last Slice Percentegem 360º
-        last = 360 * (part / 1000 * 10)
-        if (part < 100){
-            let firstPart = part - 50 > 0 ? 50 : part;
-            let secondPart = part - 50 > 0 ? part - 50 : 0;
-            if (firstPart <= 50){
-                console.log(`First part: ${firstPart}`)
-                // Half angle of slice
-                var specialInnerAngle = 360 * ((firstPart / 2) / 1000 * 10)
-                // Value of inner angles from triangle formed by radius and Arch Base
-                var sideInnerAngles = (180 - specialInnerAngle) / 2
-                var degreesInRadius = degrees2radius(specialInnerAngle)
-                //  a this, b anc c = radius
-                // Distance from beggining until end of half arch formed 
-                var archBasePerimeter = Math.sqrt( 2 * (radius * radius) - 2 * radius * radius * Math.cos(degreesInRadius))
-                // Hypotenuse formeda by 
-                var hypotenuse = (archBasePerimeter * Math.sin(degrees2radius(sideInnerAngles))) / Math.sin(degrees2radius(180 - (sideInnerAngles + sideInnerAngles - 45)));
-                
-                var currentDistance = (hypotenuse * Math.sin(degrees2radius(45))) / Math.sin(degrees2radius(90));
-                
-                var Lx = 50 - currentDistance, Ly = -100 + currentDistance, Rx = 50 + currentDistance, Ry = -100 + currentDistance;
-                var slice = 'polygon('+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 50% -200%)';
-                console.log(slice)  
-            }
-            if(secondPart > 0){
-                
-                console.log(`Second part: ${secondPart}`)
-                // Half angle of slice
-                var specialInnerAngle = 360 * ((secondPart / 2) / 1000 * 10)
-                // Value of inner angles from triangle formed by radius and Arch Base
-                var sideInnerAngles = (180 - specialInnerAngle) / 2
-                var degreesInRadius = degrees2radius(specialInnerAngle)
-                //  a this, b anc c = radius
-                // Distance from beggining until end of half arch formed 
-                var archBasePerimeter = Math.sqrt( 2 * (radius * radius) - 2 * radius * radius * Math.cos(degreesInRadius))
-                // Hypotenuse formeda by 
-                var hypotenuse = (archBasePerimeter * Math.sin(degrees2radius(sideInnerAngles))) / Math.sin(degrees2radius(180 - (sideInnerAngles + sideInnerAngles - 45)));
-
-                var currentDistance = (hypotenuse * Math.sin(degrees2radius(45))) / Math.sin(degrees2radius(90));
-                Lx += currentDistance, Ly += currentDistance, Rx -= currentDistance, Ry += currentDistance;
-                var slice = 'polygon(-100% 0%, '+ Lx +'% '+ Ly +'%, 50% 50%, '+ Rx +'% '+ Ry +'%, 200% 0%)'
-                console.log(slice)
-                
-            }
-            // else{
-            //     var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
-            // }
-        }
-        document.getElementById('pieSlice' + i).style.clipPath = slice;
-        document.getElementById('pieSlice' + i).style.transform = 'rotate('+ rotate +'deg)';
-    }
 }
