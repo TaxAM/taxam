@@ -21,15 +21,8 @@
     border-bottom: 2px solid #282828;
 }
 
-
 /* Stackoverflow solution */
 
-/* .pizzaBackground {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-  }  */
   .pizzaContainer {
     height: var(--pizza-size);
     position: relative;

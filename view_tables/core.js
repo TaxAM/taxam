@@ -101,9 +101,20 @@ function topValuesBySample(matrix, biggest){
     // Getting each matrix column without repeat one
     let column = [];
     var topValuesRange = document.getElementById('numberByTextInput').value
+    let dictonaryTable = {}, biggestTable = 0;
+    // Absolute Mode
     if (topValuesRange >= 1 || topValuesRange == 0){
         for(let i = 1; i < matrix[0].length; i++){
             for(let j = 1; j < matrix.length; j++){
+                if(matrix[j][i] > biggestTable){
+                    biggestTable = matrix[j][i];
+                }
+                // Creating dictionay with all items
+                if (dictonaryTable[matrix[0][i]] === undefined){
+                    dictonaryTable[matrix[0][i]] = {[matrix[j][0]] : matrix[j][i]};
+                }else{
+                    dictonaryTable[matrix[0][i]][matrix[j][0]] =  matrix[j][i];
+                }
                 if(!column.includes(matrix[j][i])){
                     column.push(matrix[j][i])
                 }
@@ -111,6 +122,7 @@ function topValuesBySample(matrix, biggest){
             column.sort(function(a, b) {return b - a;})
             var topValues = column.slice(0, topValuesRange);
             for(let j = 1; j < matrix.length; j++){
+                // If this value is smaller than the range, it'll be -1
                 if(matrix[j][i] < topValues[topValues.length - 1]){
                     matrix[j][i] = -1;
                 }
@@ -123,19 +135,30 @@ function topValuesBySample(matrix, biggest){
             }else{
                 matrix[i] = negative2zero(matrix[i]);
             }
-        }     
+        }
+    // Relative Mode
     }else if(topValuesRange > 0){
         for(let i = 1; i < matrix[0].length; i++){
             columnSum = 0;
             for(let j = 1; j < matrix.length; j++){
                 columnSum += matrix[j][i];
             }
-
+            // EACH COLUMN
+            // If this value is smaller than the range, it'll be -1
             for(let j = 1; j < matrix.length; j++){
+                // Creating dictionay with all items
+                if (dictonaryTable[matrix[0][i]] === undefined){
+                    dictonaryTable[matrix[0][i]] = {[matrix[j][0]] : matrix[j][i]};
+                }else{
+                    dictonaryTable[matrix[0][i]][matrix[j][0]] =  matrix[j][i];
+                }
+
+                // Absolute Mode
                 if (biggest > 1){
                     if(matrix[j][i] / columnSum < topValuesRange){
                         matrix[j][i] = -1;
                     }
+                // Relative Mode
                 }else{
                     if(matrix[j][i] < topValuesRange){
                         matrix[j][i] = -1;
@@ -155,9 +178,39 @@ function topValuesBySample(matrix, biggest){
         alert('YOU CANNOT USE NEGATIVE VALUES!')
         throw new Error('YOU CANNOT USE NEGATIVE VALUES!');
     }
-
-    return matrix;
+    return [matrix, dictonaryTable, biggestTable];
 }
+
+function reDictionaryTable(dictonaryTableCopy, biggestTable){
+    // var graphicValue = parseFloat(document.getElementById('numberByGraphicInput').value)
+    let graphicValue = 0.1;
+    // Relative mode
+    if (biggestTable <= 1 && biggestTable > 0){
+        for (const [key, value] of Object.entries(dictonaryTableCopy)) {
+            for (const [k, v] of Object.entries(value)){
+                if(v != 0){
+                    // If this animal is under cut range, it sums its value to "others" and delete original animal
+                    // REPLACE V FOR (100 * V / SUM OF ALL SAMPLE ITEMS)  ********/
+                    if (parseFloat(v) < parseFloat(graphicValue)){
+                        // Verify if there is a "others" key in dictionaryTable already
+                        if (dictonaryTableCopy[key]['others'] === undefined){
+                            dictonaryTableCopy[key]['others'] = v;
+                        }else{
+                            dictonaryTableCopy[key]['others'] +=  v;
+                            dictonaryTableCopy[key]['others'] = truncNumber(dictonaryTableCopy[key]['others'], 5);
+                        }
+                        delete dictonaryTableCopy[key][k];
+                    }
+                // Delete this animal if it is zero
+                }else{
+                    delete dictonaryTableCopy[key][k];
+                }
+            }
+        }
+    }
+    return dictonaryTableCopy;
+}
+
 
 function tableConstructor(matrix, values, biggest){
     average = values.length > 1 ? (values[values.length - 1] + values[0]) / 2 : values[0];
@@ -244,7 +297,6 @@ function graphicConstructor(){
         return currentDistance;
     }
 
-    var graphicValue = document.getElementById('numberByGraphicInput').value
     var circleLength = 2 * Math.PI * 50
     var distanceMax = 150;
     // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
@@ -318,11 +370,14 @@ function viewResult(){
             let textFile = fr.result.split("\n");
             
             var [matrix, biggest, values] = matrixConstructor(textFile);
-            
+            var dictonaryTable = {}, biggestTable = 0;
             // Sorting values[]
             values.sort(function(a, b) {return a - b;});
             // Building Matrix
-            matrix = topValuesBySample(matrix, biggest);
+            [matrix, dictonaryTable, biggestTable] = topValuesBySample(matrix, biggest);
+            // {...dictonaryTable} makes a copy of dictonaryTable
+            dictonaryTable = reDictionaryTable({...dictonaryTable}, biggestTable);
+            console.log(dictonaryTable, biggestTable)
             divResults.innerHTML = '';
             if([1, 3].includes(parseInt(viewMode))){
                 // Building Table
@@ -330,6 +385,7 @@ function viewResult(){
                 divResults.innerHTML = table;
             }
             if([2, 3].includes(parseInt(viewMode))){
+                // Building and pizza graphic to html document
                 graphicConstructor();
             }
         }
