@@ -39,9 +39,22 @@ function negative2zero(myList){
     return myList;
 }
 
-function sumArray(array){
+function singleItemArray(myArray, deleteZero = false){
+    let newArray = [];
+    for(let i = 0; i < myArray.length; i++){
+        if(!newArray.includes(myArray[i])){
+            if(myArray[i] == 0 && deleteZero){
+                continue
+            }
+            newArray.push(myArray[i]);
+        }
+    }
+    return newArray;
+}
+
+function sumArray(array, start = 0){
     sum = 0;
-    for(let i = 1; i < array.length; i++){
+    for(let i = start; i < array.length; i++){
         sum += array[i]
     }
     return sum;
@@ -178,37 +191,61 @@ function topValuesBySample(matrix, biggest){
         alert('YOU CANNOT USE NEGATIVE VALUES!')
         throw new Error('YOU CANNOT USE NEGATIVE VALUES!');
     }
-    return [matrix, dictonaryTable, biggestTable];
+    return [matrix, dictonaryTable];
 }
 
-function reDictionaryTable(dictonaryTableCopy, biggestTable){
-    // var graphicValue = parseFloat(document.getElementById('numberByGraphicInput').value)
-    let graphicValue = 0.1;
-    // Relative mode
-    if (biggestTable <= 1 && biggestTable > 0){
+function reDictionaryTable(dictonaryTableCopy){
+    var graphicValue = parseFloat(document.getElementById('numberByGraphicInput').value)
+
+    if (graphicValue != 0){
         for (const [key, value] of Object.entries(dictonaryTableCopy)) {
-            for (const [k, v] of Object.entries(value)){
-                if(v != 0){
-                    // If this animal is under cut range, it sums its value to "others" and delete original animal
-                    // REPLACE V FOR (100 * V / SUM OF ALL SAMPLE ITEMS)  ********/
-                    if (parseFloat(v) < parseFloat(graphicValue)){
-                        // Verify if there is a "others" key in dictionaryTable already
-                        if (dictonaryTableCopy[key]['others'] === undefined){
-                            dictonaryTableCopy[key]['others'] = v;
-                        }else{
-                            dictonaryTableCopy[key]['others'] +=  v;
-                            dictonaryTableCopy[key]['others'] = truncNumber(dictonaryTableCopy[key]['others'], 5);
+            var sumValues = truncNumber(sumArray(Object.keys(value).map(function(k){return value[k];}), 0), 5);
+            
+            // All single items without zero
+            var allTopItems = singleItemArray(Object.keys(value).map(function(k){return value[k];}), true).sort(function(a, b) {return b - a;}).slice(0, graphicValue)
+            // Percent mode
+            if (graphicValue < 1 && graphicValue > 0){
+                for (const [k, v] of Object.entries(value)){
+                    if(v != 0){
+                        // If this animal is under cut range, it sums its value to "others" and delete original animal
+                        if (v  / sumValues < graphicValue){
+                            // Verify if there is a "others" key in dictionaryTable already
+                            if (dictonaryTableCopy[key]['others'] === undefined){
+                                dictonaryTableCopy[key]['others'] = v;
+                            }else{
+                                dictonaryTableCopy[key]['others'] +=  v;
+                                dictonaryTableCopy[key]['others'] = truncNumber(dictonaryTableCopy[key]['others'], 5);
+                            }
+                            delete dictonaryTableCopy[key][k];
                         }
+                        // Delete this animal if it is zero
+                    }else{
                         delete dictonaryTableCopy[key][k];
                     }
-                // Delete this animal if it is zero
-                }else{
-                    delete dictonaryTableCopy[key][k];
+                }
+                // Absolute mode 
+            }else{
+                for (const [k, v] of Object.entries(value)){
+                    if(v != 0){
+                        // If this animal is under cut range (it's not one of the tops), it sums its value to "others" and delete original animal
+                        if (!allTopItems.includes(v)){
+                            // Verify if there is a "others" key in dictionaryTable already
+                            if (dictonaryTableCopy[key]['others'] === undefined){
+                                dictonaryTableCopy[key]['others'] = v;
+                            }else{
+                                dictonaryTableCopy[key]['others'] +=  v;
+                                dictonaryTableCopy[key]['others'] = truncNumber(dictonaryTableCopy[key]['others'], 5);
+                            }
+                            delete dictonaryTableCopy[key][k];
+                        }
+                    }else{
+                        delete dictonaryTableCopy[key][k];
+                    }
                 }
             }
         }
     }
-    return dictonaryTableCopy;
+        return dictonaryTableCopy;
 }
 
 
@@ -279,7 +316,7 @@ function tableConstructor(matrix, values, biggest){
     return table;
 }
 
-function graphicConstructor(){
+function graphicConstructor(sample, reads){
     function getCatetosDistance(thisPart){
         // Half angle of slice
         var specialInnerAngle = 360 * ((thisPart / 2) / 1000 * 10)
@@ -297,8 +334,8 @@ function graphicConstructor(){
         return currentDistance;
     }
 
-    var circleLength = 2 * Math.PI * 50
-    var distanceMax = 150;
+    // var circleLength = 2 * Math.PI * 50
+    // var distanceMax = 150;
     // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
     // var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
     // var testValues = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5].sort(function(a, b) {return b - a;});
@@ -306,19 +343,24 @@ function graphicConstructor(){
     // var testValues = [50, 50].sort(function(a, b) {return b - a;});
     // var testValues = [33.33, 33.33, 33.33].sort(function(a, b) {return b - a;});
     // var testValues = [70, 28, 2].sort(function(a, b) {return b - a;});
-    var testValues = [25, 20, 55].sort(function(a, b) {return b - a;});
+    // var testValues = [25, 20, 55].sort(function(a, b) {return b - a;});
     // var testValues = [20, 20, 20, 20, 20].sort(function(a, b) {return b - a;});
     // var testValues = [100].sort(function(a, b) {return b - a;});
     
-    divResults.innerHTML += '<div class="pizzaContainer" id="pizzaContainer"><div class="pizzaBackground"></div></div>';
-    let pizzaContainer = document.getElementById('pizzaContainer');
+    var testValues = Object.keys(reads).map(function(k){return reads[k];})
+    sum = sumArray(testValues, 0)
+    console.log(sum)
+    console.log(testValues)
+
+    divResults.innerHTML += `<div class="pizzaContainer" id="${sample}-pizzaContainer"><div class="pizzaBackground"></div></div>`;
+    let pizzaContainer = document.getElementById(`${sample}-pizzaContainer`);
     let rotate = 0;
     let radius = 150;
     let last = 0;
     colors = hslGenerator(testValues.length);
     for(let i = 0; i < testValues.length; i++){
-        part = testValues[i];
-        pizzaContainer.innerHTML += '<div id="pizzaSlice'+ i +'" class="hold slice"><div class="pizza"></div></div>';
+        part = testValues[i] * 100 / sum;
+        pizzaContainer.innerHTML += `<div id="${sample}-pizzaSlice${i}" class="hold slice"><div class="pizza"></div></div>`;
         // How much the slice need to rotate to fit in the graphic
         // Current Percentegem 360º + Last Slice Percentegem 360º - Current Slice Percentegem 360º
         rotate += 360 * (part / 1000 * 10) + (last - 360 * (part / 1000 * 10))/2
@@ -341,12 +383,11 @@ function graphicConstructor(){
         }else{
             var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
         }
-        var sliceElement = document.getElementById(`pizzaSlice${i}`);
+        var sliceElement = document.getElementById(`${sample}-pizzaSlice${i}`);
         sliceElement.style.clipPath = slice;
         sliceElement.style.transform = 'rotate('+ rotate +'deg)';
         sliceElement.style.backgroundColor = colors[i];
         sliceElement.style.position = 'absolute';
-        
     }
 }
 
@@ -370,14 +411,13 @@ function viewResult(){
             let textFile = fr.result.split("\n");
             
             var [matrix, biggest, values] = matrixConstructor(textFile);
-            var dictonaryTable = {}, biggestTable = 0;
+            var dictonaryTable = {};
             // Sorting values[]
             values.sort(function(a, b) {return a - b;});
             // Building Matrix
-            [matrix, dictonaryTable, biggestTable] = topValuesBySample(matrix, biggest);
+            [matrix, dictonaryTable] = topValuesBySample(matrix, biggest);
             // {...dictonaryTable} makes a copy of dictonaryTable
-            dictonaryTable = reDictionaryTable({...dictonaryTable}, biggestTable);
-            console.log(dictonaryTable, biggestTable)
+            dictonaryTable = reDictionaryTable({...dictonaryTable});
             divResults.innerHTML = '';
             if([1, 3].includes(parseInt(viewMode))){
                 // Building Table
@@ -385,8 +425,10 @@ function viewResult(){
                 divResults.innerHTML = table;
             }
             if([2, 3].includes(parseInt(viewMode))){
-                // Building and pizza graphic to html document
-                graphicConstructor();
+                for (const [sample, reads] of Object.entries(dictonaryTable)){
+                    // Building and pizza graphic to html document
+                    graphicConstructor(sample, reads);
+                }
             }
         }
     }else{
