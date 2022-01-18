@@ -1,31 +1,40 @@
-*{
-    font-family: 'Roboto', sans-serif;
-    --pizza-position-mode : absolute;
-    --pizza-size : 200px;
-}
+  *{
+      font-family: 'Roboto', sans-serif;
+      --pizza-position-mode : absolute;
+      --pizza-size : 200px;
+  }
 
-.simple{
-    width: max-content;
-    padding: 10px;
-}
+  .simple{
+      width: max-content;
+      height: 100%;
+      padding: 10px;
+  }
 
-.tableResult{
-    /* border: 2px solid #ccc; */
-    border-collapse: collapse;
-}
+  .content-flex{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
-.tableResult td{
-    padding: 5px;
-}
-.tableResult tr{
-    border-bottom: 2px solid #282828;
-}
+  .tableResult{
+      /* border: 2px solid #ccc; */
+      border-collapse: collapse;
+  }
 
-/* Stackoverflow solution */
+  .tableResult td{
+      padding: 5px;
+  }
+  .tableResult tr{
+      border-bottom: 2px solid #282828;
+  }
 
   .pizzaContainer {
-    height: var(--pizza-size);
-    position: relative;
+    /* position: relative; */
+    height: max-content;
+    width: var(--pizza-size);
+    display: flex;
+    flex-direction: column;
+    margin: calc(var(--pizza-size) * 0.15);
   }
 
   .pizzaBackground {
@@ -36,7 +45,6 @@
   } 
   
   .pizza {
-    position: absolute;
     width: var(--pizza-size);
     height: var(--pizza-size);
     border-radius: 100%;
@@ -51,3 +59,65 @@
   }
 
   .slice:hover{box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);}
+
+  /******* PIZZA LABEL ********/
+
+  .flex{
+    display: flex;
+  }
+
+  .pizza-section{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .pizza-label-container{
+    margin-top: calc(var(--pizza-size) * 0.05);
+    width: var(--pizza-size);
+    height: max-content;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+  }
+
+  .label-color{
+    font-size: calc(var(--pizza-size) * 0.050);
+    font-weight: 700;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    border-radius: calc(var(--pizza-size) * 0.04);
+    color: #fff;
+    height: calc(var(--pizza-size) * 0.08);
+    width: calc(var(--pizza-size) * 0.17);
+  }
+  
+  .label-content{
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .animal-name{
+    font-size: calc(var(--pizza-size) * 0.05);
+    font-weight: 700;
+  }
+  
+  .slice-percet{
+    font-size: calc(var(--pizza-size) * 0.045);
+  }
+
+  .pizza-label{
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: calc(var(--pizza-size) * 0.02);
+  }
+
+  

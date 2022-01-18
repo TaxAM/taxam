@@ -316,7 +316,7 @@ function tableConstructor(matrix, values, biggest){
     return table;
 }
 
-function graphicConstructor(sample, reads){
+function graphicConstructor(sample, reads, pizzaSection){
     function getCatetosDistance(thisPart){
         // Half angle of slice
         var specialInnerAngle = 360 * ((thisPart / 2) / 1000 * 10)
@@ -346,21 +346,48 @@ function graphicConstructor(sample, reads){
     // var testValues = [25, 20, 55].sort(function(a, b) {return b - a;});
     // var testValues = [20, 20, 20, 20, 20].sort(function(a, b) {return b - a;});
     // var testValues = [100].sort(function(a, b) {return b - a;});
-    
-    var testValues = Object.keys(reads).map(function(k){return reads[k];})
-    sum = sumArray(testValues, 0)
-    console.log(sum)
-    console.log(testValues)
 
-    divResults.innerHTML += `<div class="pizzaContainer" id="${sample}-pizzaContainer"><div class="pizzaBackground"></div></div>`;
+    // Delete animals with 0 in values
+    for (const [animal, value] of Object.entries(reads)){
+        if(value == 0){
+            delete reads[animal]
+        }
+    }
+    let keys = Object.keys(reads)
+    var testValues = keys.map(function(k){return reads[k];})
+    sum = sumArray(testValues, 0)
+    
+    pizzaSection.innerHTML += `<div class="pizzaContainer" id="${sample}-pizzaContainer">
+                                    <div class="pizza" id="${sample}-pizza">
+                                        <div class="pizzaBackground"></div>
+                                    </div>
+                                </div>`;
+    let pizza = document.getElementById(`${sample}-pizza`);
     let pizzaContainer = document.getElementById(`${sample}-pizzaContainer`);
     let rotate = 0;
     let radius = 150;
     let last = 0;
     colors = hslGenerator(testValues.length);
+    var label = `<div class="pizza-label-container">`;
     for(let i = 0; i < testValues.length; i++){
+        
         part = testValues[i] * 100 / sum;
-        pizzaContainer.innerHTML += `<div id="${sample}-pizzaSlice${i}" class="hold slice"><div class="pizza"></div></div>`;
+        let readValue = testValues[i] < 1 ? `${truncNumber(testValues[i] * 100, 2)}%` : testValues[i];
+        label += `<div class="pizza-label">
+                        <div class="label-color" style="background-color: ${colors[i]}">
+                            ${readValue}
+                        </div>
+                        <div class="label-content">
+                            <div class="animal-name">
+                                ${keys[i]}
+                            </div>
+                            <div class="slice-percet">
+                                ${truncNumber(part, 2)}%
+                            </div>
+                        </div>
+                    </div>`
+
+        pizza.innerHTML += `<div id="${sample}-pizzaSlice${i}" class="hold slice"><div class="pizza"></div></div>`;
         // How much the slice need to rotate to fit in the graphic
         // Current Percentegem 360º + Last Slice Percentegem 360º - Current Slice Percentegem 360º
         rotate += 360 * (part / 1000 * 10) + (last - 360 * (part / 1000 * 10))/2
@@ -383,12 +410,15 @@ function graphicConstructor(sample, reads){
         }else{
             var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
         }
+
         var sliceElement = document.getElementById(`${sample}-pizzaSlice${i}`);
         sliceElement.style.clipPath = slice;
         sliceElement.style.transform = 'rotate('+ rotate +'deg)';
         sliceElement.style.backgroundColor = colors[i];
         sliceElement.style.position = 'absolute';
     }
+    label += `</div>`;
+    pizzaContainer.innerHTML += label;
 }
 
 function viewResult(){
@@ -425,9 +455,11 @@ function viewResult(){
                 divResults.innerHTML = table;
             }
             if([2, 3].includes(parseInt(viewMode))){
+                divResults.innerHTML += `<div class="pizza-section" id="pizza-section"></div>`;
+                const pizzaSection = document.getElementById('pizza-section');
                 for (const [sample, reads] of Object.entries(dictonaryTable)){
                     // Building and pizza graphic to html document
-                    graphicConstructor(sample, reads);
+                    graphicConstructor(sample, reads, pizzaSection);
                 }
             }
         }
