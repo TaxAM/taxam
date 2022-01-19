@@ -6,78 +6,88 @@
     <script type="text/javascript" src="core.js"></script>
     <title>View Tables</title>
 </head>
-<body>
-    <div class="simple">
-        Caminho do arquivo:
-        <input type="file" id="file">
-    </div>
-    <div class="simple">
-        Tipo de visualização:
-        <input type="radio" name="modeView" id="textRadio" value="1" checked>
-        <label for="textRadio">Textual</label>
-        <input type="radio" name="modeView" id="graphicRadio" value="2">
-        <label for="graphicRadio">Gráfica</label>
-        <input type="radio" name="modeView" id="bothRadio" value="3">
-        <label for="bothRadio">Ambos</label>
-    </div>
-    <div class="simple">
-        Número máximo de táxons ou percentual mínimo (textual) por amostra[opcional]:
-        <br>
-        <input type="number" name="numberByText" id="numberByTextInput" step="0.01"  min="0" value="0">
-    </div>
-    <div class="simple">
-        Número máximo de táxons ou percentual mínimo (gráfica) por amostra[obrigatório]:
-        <br>
-        <input type="number" name="numberByGraphic" id="numberByGraphicInput" step="0.01"  min="0" value="0">
-    </div>
-    <div class="simple">
-        <input type="button" value="Visualizar" id="viewResults" onclick="viewResult()">
-    </div>
-    <div class="simple">
-    </div>
+<body onload="showTaxGraphicSession()">
+    <div class="screen">
+        <div class="controls">
+            <div class="simple">
+                Caminho do arquivo:
+                <input type="file" id="file" onchange="test()">
+                <label for="file"  class="file-button-label">Escolher arquivo</label>
+                <div id="file-name" style="display: inline;"></div>
+            </div>
+            <div class="simple">
+                Tipo de visualização:
+                <input type="radio" style="display: none;" class="view-mode-radio" name="modeView" onclick="showTaxGraphicSession()" id="textRadio" value="1" checked>
+                <label class="view-mode" for="textRadio">Textual</label>
+                <input type="radio" style="display: none;" class="view-mode-radio" name="modeView" onclick="showTaxGraphicSession()" id="graphicRadio" value="2">
+                <label class="view-mode" for="graphicRadio">Gráfica</label>
+                <input type="radio" style="display: none;" class="view-mode-radio" name="modeView" onclick="showTaxGraphicSession()" id="bothRadio" value="3">
+                <label class="view-mode" for="bothRadio">Ambos</label>
+            </div>
+            <div class="simple">
+                Número máximo de táxons ou percentual mínimo (textual) por amostra[opcional]:
+                <br>
+                <input type="number" class="number-button" name="numberByText" id="numberByTextInput" step="0.01"  min="0" value="0">
+            </div>
+            <div class="simple" id="tax-graphic-session">
+                Número máximo de táxons ou percentual mínimo (gráfica) por amostra[obrigatório]:
+                <br>
+                <input type="number" class="number-button" name="numberByGraphic" id="numberByGraphicInput" step="0.01"  min="0" value="0">
+            </div>
+        </div>
+        <div class="simple">
+            <input type="button" class="classic-button" value="Visualizar" id="viewResults" onclick="viewResult()">
+        </div>
+        <div class="simple content-flex" id="divResults">
+            <div class="table-container">
+                <table class="tableResult"><thead><tr><td>Taxon</td><td>n1</td><td>n2</td><td>pair</td><td>single</td></tr></thead><tbody><tr><td>Haploviricotina</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(0, 0, 255, 1);">0%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td></tr><tr><td>mateus</td><td style="background-color:rgba(0, 0, 255, 1);">0%</td><td style="background-color:rgba(0, 0, 255, 1);">0%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(0, 0, 255, 1);">0%</td></tr><tr><td>Pisoniviricetes</td><td style="background-color:rgba(0, 0, 255, 0.5);">16%</td><td style="background-color:rgba(0, 0, 255, 0.5);">16%</td><td style="background-color:rgba(0, 0, 255, 0.5);">16%</td><td style="background-color:rgba(0, 0, 255, 0.5);">16%</td></tr><tr><td>Polyploviricotina</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td><td style="background-color:rgba(255, 0, 0, 1);">33%</td></tr></tbody></table>
+            </div>
 
-    <div class="simple content-flex" id="divResults">
-
-        <!-- PIZZA 1 -->
-        <div class="pizza-section">
-            <div class="pizzaContainer" id="n1-pizzaContainer">
-                <div class="pizza" id="n1-pizza">
-                    <div class="pizzaBackground"></div>
-                    <div id="n1-pizzaSlice0" class="hold slice" style="clip-path: polygon(-63.9411% 13.9411%, 50% 50%, 163.941% 13.9411%, 50% -200%); transform: rotate(72.439deg); background-color: rgb(245, 132, 61); position: absolute;">
-                        <div class="pizza"></div>
+            <!-- PIZZA 1 -->
+            <div class="pizza-section">
+                <div class="pizzaContainer" id="n1-pizzaContainer">
+                    <div class="sample-name-pizza">
+                        Sample1
                     </div>
-                    <div id="n1-pizzaSlice1" class="hold slice" style="clip-path: polygon(-11.94% -38.06%, 50% 50%, 111.94% -38.06%, 50% -200%); transform: rotate(180deg); background-color: rgb(245, 202, 61); position: absolute;">
-                        <div class="pizza"></div>
-                    </div>
-                    <div id="n1-pizzaSlice2" class="hold slice" style="clip-path: polygon(-63.9411% 13.9411%, 50% 50%, 163.941% 13.9411%, 50% -200%); transform: rotate(287.561deg); background-color: rgb(217, 245, 61); position: absolute;">
-                        <div class="pizza"></div>
-                    </div>
-                </div>
-                <!-- LABEL 1 -->
-                <div class="pizza-label-container">
-                    <div class="pizza-label">
-                        <div class="label-color">
-                            35,90%
+                    <hr class="pizza-container-hr">
+                    <div class="pizza" id="n1-pizza">
+                        <div class="pizzaBackground"></div>
+                        <div id="n1-pizzaSlice0" class="hold slice" style="clip-path: polygon(-63.9411% 13.9411%, 50% 50%, 163.941% 13.9411%, 50% -200%); transform: rotate(72.439deg); background-color: rgb(245, 132, 61); position: absolute;">
+                            <div class="pizza"></div>
                         </div>
-                        <div class="label-content">
-                            <div class="animal-name">
-                                BICHO1
-                            </div>
-                            <div class="slice-percet">
-                                29%
-                            </div>
+                        <div id="n1-pizzaSlice1" class="hold slice" style="clip-path: polygon(-11.94% -38.06%, 50% 50%, 111.94% -38.06%, 50% -200%); transform: rotate(180deg); background-color: rgb(245, 202, 61); position: absolute;">
+                            <div class="pizza"></div>
+                        </div>
+                        <div id="n1-pizzaSlice2" class="hold slice" style="clip-path: polygon(-63.9411% 13.9411%, 50% 50%, 163.941% 13.9411%, 50% -200%); transform: rotate(287.561deg); background-color: rgb(217, 245, 61); position: absolute;">
+                            <div class="pizza"></div>
                         </div>
                     </div>
-                    <div class="pizza-label">
-                        <div class="label-color">
-                            35,90%
-                        </div>
-                        <div class="label-content">
-                            <div class="animal-name">
-                                BICHO1
+                    <!-- LABEL 1 -->
+                    <div class="pizza-label-container">
+                        <div class="pizza-label">
+                            <div class="label-color">
+                                35,90%
                             </div>
-                            <div class="slice-percet">
-                                29%
+                            <div class="label-content">
+                                <div class="animal-name">
+                                    BICHO1
+                                </div>
+                                <div class="slice-percet">
+                                    29%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pizza-label">
+                            <div class="label-color">
+                                35,90%
+                            </div>
+                            <div class="label-content">
+                                <div class="animal-name">
+                                    BICHO1
+                                </div>
+                                <div class="slice-percet">
+                                    29%
+                                </div>
                             </div>
                         </div>
                     </div>

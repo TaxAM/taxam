@@ -251,7 +251,7 @@ function reDictionaryTable(dictonaryTableCopy){
 
 function tableConstructor(matrix, values, biggest){
     average = values.length > 1 ? (values[values.length - 1] + values[0]) / 2 : values[0];
-    table = '<table class="tableResult">';
+    table = '<div class="table-container"><table class="tableResult">';
     header = '<thead><tr>'
     row = '';
     for(let i = 0; i < matrix[0].length; i++){
@@ -312,7 +312,7 @@ function tableConstructor(matrix, values, biggest){
         table += row;
         row = '';
     }
-    table += '</tbody></table>';
+    table += '</tbody></table></div>';
     return table;
 }
 
@@ -358,6 +358,10 @@ function graphicConstructor(sample, reads, pizzaSection){
     sum = sumArray(testValues, 0)
     
     pizzaSection.innerHTML += `<div class="pizzaContainer" id="${sample}-pizzaContainer">
+                                    <div class="sample-name-pizza">
+                                        ${sample}
+                                    </div>
+                                    <hr class="pizza-container-hr">
                                     <div class="pizza" id="${sample}-pizza">
                                         <div class="pizzaBackground"></div>
                                     </div>
@@ -402,11 +406,11 @@ function graphicConstructor(sample, reads, pizzaSection){
                 var slice = `polygon( ${Lx}% ${Ly}%, 50% 50%, ${Rx}% ${Ry}%, 50% -200%)`;
             }
             if(secondPart > 0){
-                var currentDistance = getCatetosDistance(firstPart);
+                var currentDistance = getCatetosDistance(secondPart);
                 Lx += currentDistance, Ly += currentDistance, Rx -= currentDistance, Ry += currentDistance;
-                var slice = `polygon(-100% 0%, ${Lx}% ${Ly}%, 50% 50%, ${Rx}% ${Ry}%, 200% 0%)`;
+                slice = `polygon(-100% 0%, ${Lx}% ${Ly}%, 50% 50%, ${Rx}% ${Ry}%, 200% 0%)`;
             }
-        
+            
         }else{
             var slice = 'polygon(50% -100%, -100% 50%, 50% 200%, 200% 50%)'
         }
@@ -419,6 +423,30 @@ function graphicConstructor(sample, reads, pizzaSection){
     }
     label += `</div>`;
     pizzaContainer.innerHTML += label;
+}
+
+function showTaxGraphicSession(){
+    const viewModeRadios = document.getElementsByName('modeView');
+    const taxGraphicSession = document.getElementById('tax-graphic-session');
+    for(let i = 0; i < viewModeRadios.length; i++){
+        if (viewModeRadios[i].checked == true){
+            if( viewModeRadios[i].id == 'textRadio'){
+                taxGraphicSession.style.display = 'none';
+            }else{
+                taxGraphicSession.style.display = 'block';
+            }
+            break;
+        }
+    }
+
+}
+
+function test(){
+    const fileName = document.getElementById('file-name')
+    let file = document.getElementById("file");
+    if(file.files.length > 0){
+        fileName.innerHTML = file.files[0].name;
+    }
 }
 
 function viewResult(){
