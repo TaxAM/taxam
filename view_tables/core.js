@@ -283,29 +283,33 @@ function tableConstructor(matrix, values, biggest){
     for(let i = 1; i < matrix.length; i++){
         row += '<tr>';
         for(let j = 0; j < matrix[i].length; j++){
+            s = 100
             if (j != 0){
+                // BLUE
                 if(matrix[i][j] <= average){
                     rangeColor = parseFloat(1 / (leftSide.length));
                     index = leftSide.indexOf(matrix[i][j]);
-                    rangeAlpha = parseFloat(1 - (rangeColor * index));
-                    red = 0;
-                    blue = 255;
+                    rangeAlpha = parseFloat((rangeColor * index));
+                    l = (rangeAlpha * 40) + 50
+                    h = 240
+                    // RED
                 }else{
                     rangeColor = parseFloat(1 / (rightSide.length));
                     index = rightSide.indexOf(matrix[i][j]);
-                    rangeAlpha = parseFloat((rangeColor * index) + rangeColor);
-                    red = 255;
-                    blue = 0;
+                    rangeAlpha = parseFloat(1 - (rangeColor * index) - rangeColor);
+                    l = (rangeAlpha * 40) + 50
+                    h = 0
                 }
-                dataBgColor = '(' + red + ', 0, ' + blue + ', ' + rangeAlpha + ')';
+                dataBgColor = '(' + h + ', ' + s +'%, ' + l + '%)';
+                // console.log(dataBgColor)
             }
             // We are using matrix[i][j]*1000/10 besides matrix[i][j]*100 because precision is better
             // Relative mode
             if (biggest <= 1 && biggest > 0){
-                row += j == 0 ? '<td>' + matrix[i][j] + '</td>' : '<td style="background-color:rgba'+ dataBgColor + ';">' + matrix[i][j]*1000/10 + '%</td>';
+                row += j == 0 ? '<td>' + matrix[i][j] + '</td>' : '<td style="background-color:hsl'+ dataBgColor + ';">' + matrix[i][j]*1000/10 + '%</td>';
             // Absolute mode
             }else{
-                row += j == 0 ? '<td>' + matrix[i][j] + '</td>' : '<td style="background-color:rgba'+ dataBgColor + ';">' + matrix[i][j] + '</td>';
+                row += j == 0 ? '<td>' + matrix[i][j] + '</td>' : '<td style="background-color:hsl'+ dataBgColor + ';">' + matrix[i][j] + '</td>';
             }
         }
         row += '</tr>';
@@ -334,19 +338,6 @@ function graphicConstructor(sample, reads, pizzaSection){
         return currentDistance;
     }
 
-    // var circleLength = 2 * Math.PI * 50
-    // var distanceMax = 150;
-    // var testValues = [25, 15, 5, 8, 21, 16, 10].sort(function(a, b) {return b - a;});
-    // var testValues = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10].sort(function(a, b) {return b - a;});
-    // var testValues = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5].sort(function(a, b) {return b - a;});
-    // var testValues = [33, 33, 17, 17].sort(function(a, b) {return b - a;});
-    // var testValues = [50, 50].sort(function(a, b) {return b - a;});
-    // var testValues = [33.33, 33.33, 33.33].sort(function(a, b) {return b - a;});
-    // var testValues = [70, 28, 2].sort(function(a, b) {return b - a;});
-    // var testValues = [25, 20, 55].sort(function(a, b) {return b - a;});
-    // var testValues = [20, 20, 20, 20, 20].sort(function(a, b) {return b - a;});
-    // var testValues = [100].sort(function(a, b) {return b - a;});
-
     // Delete animals with 0 in values
     for (const [animal, value] of Object.entries(reads)){
         if(value == 0){
@@ -355,6 +346,9 @@ function graphicConstructor(sample, reads, pizzaSection){
     }
     let keys = Object.keys(reads)
     var testValues = keys.map(function(k){return reads[k];})
+    if(sumArray(testValues) == 0){
+        return
+    }
     sum = sumArray(testValues, 0)
     
     pizzaSection.innerHTML += `<div class="pizzaContainer" id="${sample}-pizzaContainer">
@@ -378,7 +372,7 @@ function graphicConstructor(sample, reads, pizzaSection){
         part = testValues[i] * 100 / sum;
         let readValue = testValues[i] < 1 ? `${truncNumber(testValues[i] * 100, 2)}%` : testValues[i];
         label += `<div class="pizza-label">
-                        <div class="label-color" style="background-color: ${colors[i]}">
+                        <div class="label-color" id="${sample}-${keys[i]}-label-color" onmouseover="changeColor('${sample}-pizzaSlice${i}')" onmouseout="originalColor('${sample}-pizzaSlice${i}')" style="background-color: ${colors[i]}">
                             ${readValue}
                         </div>
                         <div class="label-content">
@@ -391,7 +385,7 @@ function graphicConstructor(sample, reads, pizzaSection){
                         </div>
                     </div>`
 
-        pizza.innerHTML += `<div id="${sample}-pizzaSlice${i}" class="hold slice"><div class="pizza"></div></div>`;
+        pizza.innerHTML += `<div id="${sample}-pizzaSlice${i}" onmouseover="changeColor('${sample}-${keys[i]}-label-color')" onmouseout="originalColor('${sample}-${keys[i]}-label-color')" class="hold slice"><div class="pizza"></div></div>`;
         // How much the slice need to rotate to fit in the graphic
         // Current Percentegem 360º + Last Slice Percentegem 360º - Current Slice Percentegem 360º
         rotate += 360 * (part / 1000 * 10) + (last - 360 * (part / 1000 * 10))/2
@@ -425,6 +419,15 @@ function graphicConstructor(sample, reads, pizzaSection){
     pizzaContainer.innerHTML += label;
 }
 
+function changeColor(colorDivId){
+    let colorDiv = document.getElementById(colorDivId);
+    colorDiv.style.boxShadow = 'inset 0 0 200px 0 rgba(255, 255, 255,0.9)';
+}
+function originalColor(colorDivId){
+    let colorDiv = document.getElementById(colorDivId);
+    colorDiv.style.boxShadow = '';
+}
+
 function showTaxGraphicSession(){
     const viewModeRadios = document.getElementsByName('modeView');
     const taxGraphicSession = document.getElementById('tax-graphic-session');
@@ -441,11 +444,21 @@ function showTaxGraphicSession(){
 
 }
 
-function test(){
+function showFileName(){
     const fileName = document.getElementById('file-name')
     let file = document.getElementById("file");
     if(file.files.length > 0){
         fileName.innerHTML = file.files[0].name;
+    }
+}
+
+function fixValue(numberButtonId){
+    var button = document.getElementById(numberButtonId)
+    if(button.value >= 1){
+        button.value = parseInt(`${button.value}`.split('.')[0]);
+    }
+    if(button.value === ''){
+        button.value = 0;
     }
 }
 
