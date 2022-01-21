@@ -1,6 +1,6 @@
 
 // hsl is a method how uses variable h as a chromatic circle
-function hslGenerator(numberColors){
+function hslGenerator(numberColors, s = 0, l = 0){
     if(numberColors < 5){
         var circleRange = 70;
     }else if(numberColors < 9){
@@ -11,7 +11,7 @@ function hslGenerator(numberColors){
     var colors = [], c = 0, color = '', hRange = Math.floor(circleRange / numberColors), h = 0;
         while(c < numberColors){
             h = h + hRange <= circleRange ? h + hRange : circleRange;
-            color = `hsl(${h}, 90%, 60%)`;
+            color = `hsl(${h}, ${s}%, ${l}%)`;
             colors.push(color);
             c++;
         }
@@ -320,7 +320,7 @@ function tableConstructor(matrix, values, biggest){
     return table;
 }
 
-function graphicConstructor(sample, reads, pizzaSection){
+function graphicConstructor(sample, reads, pizzaSection, biggest){
     function getCatetosDistance(thisPart){
         // Half angle of slice
         var specialInnerAngle = 360 * ((thisPart / 2) / 1000 * 10)
@@ -365,12 +365,12 @@ function graphicConstructor(sample, reads, pizzaSection){
     let rotate = 0;
     let radius = 150;
     let last = 0;
-    colors = hslGenerator(testValues.length);
+    colors = hslGenerator(testValues.length, 90, 60);
     var label = `<div class="pizza-label-container">`;
     for(let i = 0; i < testValues.length; i++){
         
         part = testValues[i] * 100 / sum;
-        let readValue = testValues[i] < 1 ? `${truncNumber(testValues[i] * 100, 2)}%` : testValues[i];
+        let readValue = biggest <= 1 ? `${truncNumber(testValues[i] * 100, 2)}%` : testValues[i];
         label += `<div class="pizza-label">
                         <div class="label-color" id="${sample}-${keys[i]}-label-color" onmouseover="changeColor('${sample}-pizzaSlice${i}')" onmouseout="originalColor('${sample}-pizzaSlice${i}')" style="background-color: ${colors[i]}">
                             ${readValue}
@@ -500,7 +500,7 @@ function viewResult(){
                 const pizzaSection = document.getElementById('pizza-section');
                 for (const [sample, reads] of Object.entries(dictonaryTable)){
                     // Building and pizza graphic to html document
-                    graphicConstructor(sample, reads, pizzaSection);
+                    graphicConstructor(sample, reads, pizzaSection, biggest);
                 }
             }
         }
