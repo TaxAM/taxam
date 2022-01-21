@@ -23,7 +23,7 @@ parse.add_argument('-th', '--thread_number', help = 'Number of threads to be use
 
 parse.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. Relative or Absolute.', type = int, action = 'store', default = 1, choices=[1,2])
 
-parse.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample in alphabetical order. If there are 3 samples: spa, spb, spc, use 100,150,275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance 0,125,0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
+parse.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample. If there are 3 samples: spa, spb, spc, use spa:100,spb:150,spc:275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance spa:0,spb:125,spc:0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
 
 args = parse.parse_args()
 
@@ -32,6 +32,7 @@ terminal = args.__dict__.copy()
 # IT STORES A LIST WITH A QUANTITY OF READS FOR EACH SAMPLE
 if terminal['reads_quantity'] != None:
     terminal['reads_quantity'] = returnIntegerList(terminal['reads_quantity'])
+
 
 # SEEING IF THIS DIRECTORY EXISTS
 if(os.path.isdir(f'{terminal["folder_path"]}/')) and terminal['folder_path'] != None:
@@ -89,10 +90,14 @@ if wrong_files != '':
 
 # GETTING NUMBER OF READS FOR EACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
 if terminal['matrix_mode'] == 2 and terminal['reads_quantity'] != None:
-    qtt_reads_sample = {}
+    wrong_keys = []
     if len(file_names) == len(terminal['reads_quantity']):
-        for key, file_name in enumerate(file_names):
-            qtt_reads_sample[file_name] = terminal['reads_quantity'][key]
+        for key in terminal['reads_quantity'].keys():
+            if key not in file_names:
+                wrong_keys.append(key)
+        if len(wrong_keys) > 0:
+            sys.exit('You informed some wrong keys: ' + ','.join(wrong_keys))
+
     else:
         sys.exit('You informed more or less number of reads for each sample.')
 
@@ -120,9 +125,9 @@ for key, value in file_names.items():
     if terminal['reads_quantity'] != None:
         # IF USER DIDN'T INFORME READS QUANTITY, THERE IS NO READ FILE AND IT WANTS TO DO RELATIVE CALCULATE, THAN
         # box[3] IS READS PATH
-        if box[3] == None and terminal['matrix_mode'] == 2 and terminal['reads_quantity'][i] == 0:
+        if box[3] == None and terminal['matrix_mode'] == 2 and terminal['reads_quantity'][key] == 0:
             sys.exit('Expected reads quantity.')
-        box.append(terminal['reads_quantity'][i])
+        box.append(terminal['reads_quantity'][key])
         i += 1
     else:
         if box[3] == None and terminal['matrix_mode'] == 2 and terminal['reads_quantity'] == None:
@@ -179,7 +184,7 @@ for file in files:
     with open(tmp_folder + file, 'r') as f:
         line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';')
         data[getSuffix(file,'_')] = eval(line.strip())
-
+print(terminal['reads_quantity'])
 # DELETE FOLDER
 shutil.rmtree(tmp_folder)
 # SORTING SAMPLE KEYS IN ASCENDING ORDER

@@ -67,13 +67,14 @@ def getSuffix(file, sep):
     return file.split('.')[0].split(sep)[-1]
 
 
-def returnIntegerList(str = ''):
-    tmp_list = str.split(',')
-    final_list = []
+def returnIntegerList(string = ''):
+    tmp_list = string.split(',')
+    final_list = {}
     for item in tmp_list:
         try:
             if item != '':
-                final_list.append(int(item))
+                k, v = item.split(':')
+                final_list[k] = int(v)
         except:
-            sys.exit('One or more items from reads quantity are not integer.')
-    return final_list[:]
+            sys.exit('One or more items from reads quantity are not integer. Or invalid key.')
+    return final_list.copy()
