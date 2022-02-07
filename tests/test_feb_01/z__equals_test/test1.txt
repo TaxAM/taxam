@@ -1,0 +1,7 @@
+[Non-identical files!]
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_kleber//saida-classe-discard.tsv
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_mateus//saida-classe-discard.taxam
+
+[	A	B	C][Taxon	A	B	C] - [-]
+[CL1	1	2	1][CL1	3	13	3] - [-]
+[CL2	6	3	6][CL2	11	4	12] - [-]

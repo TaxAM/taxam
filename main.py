@@ -1,14 +1,6 @@
 import os, csv
 from util import *
 
-
-# if len(sys.argv) != 7:
-#     print("Usage: python main.py <taxonomy_level> <reads_taxonomy_file.tax> <ref_taxonomy_file.tax> <mapping_file_reads_to_ref.mma> <output_file_name.csv> <file_to_use>\n")
-#     print("Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species\n")
-#     print("File to use: 1-Reads, 2-Contigs, 3-No one\n")
-#     print("Example: python main.py 5 reads.tax cds.tax mapping.mma output.csv\n")
-#     sys.exit("System aborted")
-
 def execTaxam(my_args_lists, number_of_thread = 0):
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
@@ -105,7 +97,6 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         with open(args['ref_taxon_path']) as tax_file:
             reader = csv.reader(tax_file, delimiter = args['contigs_sep'])
             for line in reader:
-                # print(line)
                 # if this read is classified
                 if line[0] == 'C':
                     contig_id = line[1]
@@ -128,7 +119,6 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         with open(args['mapping_reads_ref_path']) as tax_file:
             reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
             for line in reader:
-                # print(line)
                 try:
                     taxon = contig_tax[line[1]]
                     read_id = line[0]

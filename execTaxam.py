@@ -3,7 +3,7 @@ from main import *
 import os, argparse, shutil
 
 parse = argparse.ArgumentParser(description='Execute taxam', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01.taxam" -fu 2',)
-parse.add_argument('-tl', '--tax_level', help = 'Level of taxonomy to use. Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species',type = int, action = 'store', default = 1, choices = [int(i) for i in range(1, 8)])
+parse.add_argument('-tl', '--tax_level', help = 'Level of taxonomy to use. Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species. Default: 1.',type = int, action = 'store', default = 1, choices = [int(i) for i in range(1, 8)])
 
 parse.add_argument('-fp', '--folder_path', help = 'Folder where are the file to be used', type = str, action = 'store', default = None)
 
@@ -17,7 +17,7 @@ parse.add_argument('-os', '--output_sep', help = 'Separator used to part each co
 
 parse.add_argument('-op', '--output_name', help = 'Name of output file', type = str, action = 'store', default = 'tx_matrix')
 
-parse.add_argument('-fu', '--file_to_use', help = 'In case of conflict, which file to be used .1-Reads, 2-Contigs, 3-No one', type = str, action = 'store', default = 3)
+parse.add_argument('-fu', '--file_to_use', help = 'In case of conflict, which file to be used .1-Reads, 2-Contigs, 3-No one. Default : 3.', type = str, action = 'store', default = 3)
 
 parse.add_argument('-th', '--thread_number', help = 'Number of threads to be used.', type = int, action = 'store', default = 1)
 
@@ -73,9 +73,9 @@ if wrong_files != '':
     sys.exit('''
     You used bad files. Your files should be:
 
-    reads_<read_id>.tax
-    contigs_<contigs_id>.tax
-    mapping_<mapping_id>.mp
+    reads_<read_id>.txt
+    contigs_<contigs_id>.txt
+    mapping_<mapping_id>.txt
     ''')
 
 # SEEING IF NUMBER OF FILES IS CORRECT FOR EACH GROUP
@@ -184,7 +184,7 @@ for file in files:
     with open(tmp_folder + file, 'r') as f:
         line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';')
         data[getSuffix(file,'_')] = eval(line.strip())
-print(terminal['reads_quantity'])
+# print(terminal['reads_quantity'])
 # DELETE FOLDER
 shutil.rmtree(tmp_folder)
 # SORTING SAMPLE KEYS IN ASCENDING ORDER
