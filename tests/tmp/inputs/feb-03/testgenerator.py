@@ -166,7 +166,6 @@ def join_samples(pool_name, sample_names, remove_temporary=True):
         # I have modified first field to be equal to TaxAM
         row = ['TaxAM']
         row.extend([s for s in sample_names])
-        print(row)
         csv_writer.writerow(row)
         for tax_name in tax_names:
           row = [name_taxon(tax_name, level)]

@@ -1,0 +1,7 @@
+[Non-identical files!]
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_c\outs//output_kleber//output_level3_tie-contig.tsv
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_c\outs//output_taxam//output_level3_tie-contig.taxam
+
+[TaxAM	A	B	C] - [+]
+[OR1	6	1	5][OR1	7	10	7] - [-]
+[OR2	1	9	6][OR2	10	9	9] - [-]

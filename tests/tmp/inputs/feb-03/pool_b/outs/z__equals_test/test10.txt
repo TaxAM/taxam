@@ -1,0 +1,7 @@
+[Non-identical files!]
+File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_b\outs//output_kleber//output_level3_tie-discard.tsv
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_b\outs//output_taxam//output_level3_tie-discard.taxam
+
+[TaxAM	A	B	C] - [+]
+[OR1	1	1	1][OR1	5	3	10] - [-]
+[OR2	5	5	4][OR2	11	12	5] - [-]

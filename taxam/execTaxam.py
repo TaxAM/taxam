@@ -198,7 +198,7 @@ for sample in samples:
 
 # SORTING WIGHT KEYS IN ASCENDING ORDER
 wights = sorted(wights, key=lambda x: x.lower())
-header = 'Taxon' + terminal['output_sep'] + terminal['output_sep'].join(samples) + '\n'
+header = 'TaxAM' + terminal['output_sep'] + terminal['output_sep'].join(samples) + '\n'
 tmp_list = []
 rows = ''
 for j in range(len(wights)):
