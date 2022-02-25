@@ -3,6 +3,7 @@ from main import *
 import os, argparse, shutil
 
 parse = argparse.ArgumentParser(description='Execute taxam', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01.taxam" -fu 2',)
+
 parse.add_argument('-tl', '--tax_level', help = 'Level of taxonomy to use. Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species. Default: 1.',type = int, action = 'store', default = 1, choices = [int(i) for i in range(1, 8)])
 
 parse.add_argument('-fp', '--folder_path', help = 'Folder where are the file to be used.', type = str, action = 'store', default = None)
@@ -17,7 +18,7 @@ parse.add_argument('-os', '--output_sep', help = 'Separator used to part each co
 
 parse.add_argument('-op', '--output_name', help = 'Name of output file.', type = str, action = 'store', default = 'tx_matrix')
 
-parse.add_argument('-fu', '--file_to_use', help = 'In case of conflict, which file to be used .1-Reads, 2-Contigs, 3-No one. Default : 3.', type = str, action = 'store', default = 3)
+parse.add_argument('-fu', '--file_to_use', help = 'In case of conflict, which file to be used .1-Reads, 2-Contigs, 3-No one. Default : 3.', type = int, action = 'store', default = 3, choices = [int(i) for i in range(1, 4)])
 
 parse.add_argument('-th', '--thread_number', help = 'Number of threads to be used.', type = int, action = 'store', default = 1)
 
@@ -32,7 +33,6 @@ terminal = args.__dict__.copy()
 # IT STORES A LIST WITH A QUANTITY OF READS FOR EACH SAMPLE
 if terminal['reads_quantity'] != None:
     terminal['reads_quantity'] = returnIntegerList(terminal['reads_quantity'])
-
 
 # SEEING IF THIS DIRECTORY EXISTS
 if(os.path.isdir(terminal["folder_path"] + '/')) and terminal['folder_path'] != None:

@@ -1,7 +1,7 @@
 [Non-identical files!]
 File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_kleber//output_level1_tie-read.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_taxam//output_level1_tie-reads.taxam
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_taxam//d_output_level1_tie-reads.taxam
 
 [TaxAM	A	B	C] - [+]
-[FI1	9	9	8][FI1	13	11	15] - [-]
-[FI2	3	5	4][FI2	5	7	3] - [-]
+[FI1	7	3	3][FI1	12	9	3] - [-]
+[FI2	5	6	4][FI2	7	7	14] - [-]

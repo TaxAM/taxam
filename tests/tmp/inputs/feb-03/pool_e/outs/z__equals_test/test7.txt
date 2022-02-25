@@ -1,7 +1,7 @@
 [Non-identical files!]
 File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_e\outs//output_kleber//output_level2_tie-discard.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_e\outs//output_taxam//output_level2_tie-discard.taxam
+File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_e\outs//output_taxam//e_output_level2_tie-discard.taxam
 
 [TaxAM	A	B	C] - [+]
-[CL1	6	4	7][CL1	8	14	13] - [-]
-[CL2	2	2	1][CL2	8	3	1] - [-]
+[CL1	2	6	2][CL1	10	10	8] - [-]
+[CL2	5	2	1][CL2	6	4	8] - [-]

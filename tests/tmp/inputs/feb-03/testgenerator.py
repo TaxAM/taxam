@@ -51,7 +51,7 @@ def generate_sample(sample_name, n_taxa_per_level, perc_partial_taxa, n_reads, n
         row = ['CONTIG' + str(id+1)]
         row.extend(name_taxon(taxon))
         csv_writer.writerow(row)
-    with open("mappings_" + sample_name + ".tsv", 'w', newline='', encoding='utf-8') as f:
+    with open("mapping_" + sample_name + ".tsv", 'w', newline='', encoding='utf-8') as f:
       csv_writer = csv.writer(f, delimiter='\t')
       for r, c in mappings.items():
         row = ['READ' + str(r+1), 'CONTIG' + str(c+1)]
