@@ -3,5 +3,5 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_a\outs//output_taxam//a_output_level3_tie-contig.taxam
 
 [TaxAM	A	B	C] - [+]
-[OR1	3	2	15][OR1	14	5	16] - [-]
-[OR2	1	2	0][OR2	4	13	0] - [-]
+[OR1	1	5	11][OR1	12	15	14] - [-]
+[OR2	1	1	2][OR2	5	3	3] - [-]

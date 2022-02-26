@@ -10,7 +10,6 @@ def verifyExtension(files, extention):
     return True
 
 
-
 def printDict(dict):
     for k, v in dict.items():
         print(k, ' -> ', v)

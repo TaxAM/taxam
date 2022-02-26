@@ -3,5 +3,5 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_taxam//d_output_level1_tie-contig.taxam
 
 [TaxAM	A	B	C] - [+]
-[FI1	9	1	1][FI1	12	8	1] - [-]
-[FI2	7	7	2][FI2	7	8	16] - [-]
+[FI1	1	2	2][FI1	3	3	10] - [-]
+[FI2	3	11	1][FI2	13	13	7] - [-]

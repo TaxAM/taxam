@@ -3,5 +3,5 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_b\outs//output_taxam//b_output_level0_tie-discard.taxam
 
 [TaxAM	A	B	C] - [+]
-[RE1	3	7	7] - [+]
-[RE2	10	8	9] - [+]
+[RE1	2	2	6] - [+]
+[RE2	15	14	9] - [+]

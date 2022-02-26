@@ -3,6 +3,6 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_e\outs//output_taxam//e_output_level6_tie-contig.taxam
 
 [TaxAM	A	B	C] - [+]
-[ES1	1	2	1][ES1	1	15	1] - [-]
-[ES2	2	0	1][ES2	10	0	1] - [-]
-[ES3	6	1	2][ES3	7	1	16] - [-]
+[ES1	1	2	3][ES1	4	9	12] - [-]
+[ES2	1	1	1][ES2	12	1	1] - [-]
+[ES3	1	7	1][ES3	1	8	4] - [-]

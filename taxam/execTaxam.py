@@ -2,7 +2,7 @@ from threading import Thread
 from main import *
 import os, argparse, shutil
 
-parse = argparse.ArgumentParser(description='Execute taxam', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01.taxam" -fu 2',)
+parse = argparse.ArgumentParser(description='Execute taxam.', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01 -fu 2',)
 
 parse.add_argument('-tl', '--tax_level', help = 'Level of taxonomy to use. Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species. Default: 1.',type = int, action = 'store', default = 1, choices = [int(i) for i in range(1, 8)])
 

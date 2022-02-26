@@ -3,5 +3,5 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_taxam//d_output_level0_tie-reads.taxam
 
 [TaxAM	A	B	C] - [+]
-[RE1	7	7	10] - [+]
-[RE2	12	9	7] - [+]
+[RE1	10	5	12] - [+]
+[RE2	6	11	5] - [+]

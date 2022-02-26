@@ -3,5 +3,5 @@ File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\t
 File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_e\outs//output_taxam//e_output_level3_tie-discard.taxam
 
 [TaxAM	A	B	C] - [+]
-[OR1	5	1	1][OR1	10	2	2] - [-]
-[OR2	2	2	1][OR2	6	14	12] - [-]
+[OR1	2	1	1][OR1	5	9	1] - [-]
+[OR2	8	2	1][OR2	11	7	15] - [-]
