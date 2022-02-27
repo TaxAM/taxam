@@ -1,3 +1,4 @@
+sample C
 pool_d
 Reads
 C	READ17	0	RE1; FI2; CL1; OR2; FA1; GE2; ES1

@@ -1,3 +1,4 @@
+sample A
 pool_d
 Reads
 C	READ4	0	RE1; FI2; CL1; OR1; FA2; GE2; ES2

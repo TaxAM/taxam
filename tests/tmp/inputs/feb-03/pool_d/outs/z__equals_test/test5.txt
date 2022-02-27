@@ -1,7 +1,0 @@
-[Non-identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_kleber//output_level1_tie-read.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_d\outs//output_taxam//d_output_level1_tie-reads.taxam
-
-[TaxAM	A	B	C] - [+]
-[FI1	2	2	3][FI1	4	4	8] - [-]
-[FI2	4	9	2][FI2	12	12	9] - [-]

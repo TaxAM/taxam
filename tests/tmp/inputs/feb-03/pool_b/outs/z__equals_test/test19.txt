@@ -1,8 +1,0 @@
-[Non-identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_b\outs//output_kleber//output_level6_tie-discard.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\tmp\inputs\feb-03\pool_b\outs//output_taxam//b_output_level6_tie-discard.taxam
-
-[TaxAM	A	B	C] - [+]
-[ES1	4	5	5][ES1	7	8	7] - [-]
-[ES2	1	2	1][ES2	9	2	3] - [-]
-[ES3	0	1	2][ES3	0	5	5] - [-]
