@@ -13,21 +13,21 @@ parse.add_argument(
                     action = 'store', 
                     default = '')
 
-args: parse = parse.parse_args()
-args: dict = args.__dict__.copy()
-executions: str = ''
+args = parse.parse_args()
+args = args.__dict__.copy()
+executions = ''
 try:
     with open(args['file_scripts'], 'r') as file:
         executions = file.readlines()
 except FileNotFoundError:
     sys.exit('File not found.')
 
-list_of_times: list = []
+list_of_times = []
 for execution in executions:
     # Float value of time in seconds
-    start = time.perf_counter()
+    start = time.clock()
     os.system(execution)
-    end = time.perf_counter()
+    end = time.clock()
     list_of_times.append(end - start)
 
 list_of_times.sort()

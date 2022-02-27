@@ -135,7 +135,7 @@ for key, value in file_names.items():
         box.append(terminal['reads_quantity'])
 
     my_args.append(box[:])
-    box.clear()
+    box = []
 tmp_folder = './tmp/'
 if(not os.path.isdir(tmp_folder)):
         os.mkdir(tmp_folder)
@@ -215,7 +215,7 @@ for j in range(len(wights)):
         except:
             tmp_list.append('0')
     rows += terminal['output_sep'].join(tmp_list) + '\n'
-    tmp_list.clear()
+    tmp_list = []
 
 # CHECKING IF OUTPUT FILE EXISTS
 OUT_PUT_FOLDER = r'./output_taxam/'
