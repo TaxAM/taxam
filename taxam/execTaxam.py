@@ -50,6 +50,7 @@ file_names = {}
 type, key = 'None', 'None'
 wrong_files = ''
 
+print('Checking if all files are valid.')
 # CHECKING IF ALL FILES ARE VALID AND STORING THEM IN A DICTIONARY
 # SORTED IN ALPHABETICAL ORDER
 for file in files:
@@ -86,10 +87,12 @@ for name, file in file_names.items():
 # IF wrong_files IS NOT EMPTY THAT MEANS THERE ARE ANY BAD FILE
 if wrong_files != '':
     sys.exit('\nBad material:\n' + wrong_files)
+print('[Finished!]')
 
 
 # GETTING NUMBER OF READS FOR EACH SAMPLE IF WE'RE USING RELATIVE MODE IN THE TABLE
 if terminal['matrix_mode'] == 2 and terminal['reads_quantity'] != None:
+    print('Counting reads informed to relative mode.')
     wrong_keys = []
     if len(file_names) == len(terminal['reads_quantity']):
         for key in terminal['reads_quantity'].keys():
@@ -100,8 +103,9 @@ if terminal['matrix_mode'] == 2 and terminal['reads_quantity'] != None:
 
     else:
         sys.exit('You informed more or less number of reads for each sample.')
+    print('[Finished!]')
 
-
+print('Creating Threads.')
 # CREATING PARAMETERS TO PASS FOR THREADS FOR execTaxam FUNCTION
 box = []
 my_args = []
@@ -163,7 +167,8 @@ for i in range(nt):
     # CREATING THREAS LIST FOR EACH THREAD
     threads.append(Thread(target=execTaxam, args=[my_args[bgg : end], i+1]))
     bgg = end
-
+print('[Finished!]')
+print('Starting threads.')
 # IT STARTS THREADS
 for thread in threads:
     thread.start()
@@ -171,7 +176,9 @@ for thread in threads:
 # IT WAITS FOR THREADS TO FINISH
 for thr in threads:
     thr.join()
+print('[Finished!]')
 
+print('Getting data out of threads.')
 # SEEING IF THIS DIRECTORY EXISTS
 if (os.path.isdir(tmp_folder)):
     files = sorted(os.listdir(tmp_folder))
@@ -184,9 +191,12 @@ for file in files:
     with open(tmp_folder + file, 'r') as f:
         line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';')
         data[getSuffix(file,'_')] = eval(line.strip())
-# print(terminal['reads_quantity'])
+
 # DELETE FOLDER
 shutil.rmtree(tmp_folder)
+print('[Finished!]')
+
+print('Sorting final matrix.')
 # SORTING SAMPLE KEYS IN ASCENDING ORDER
 samples = sorted(list(data.keys()), key=lambda x: x.lower())
 wights = []
@@ -216,15 +226,19 @@ for j in range(len(wights)):
             tmp_list.append('0')
     rows += terminal['output_sep'].join(tmp_list) + '\n'
     tmp_list = []
+print('[Finished!]')
 
 # CHECKING IF OUTPUT FILE EXISTS
 OUT_PUT_FOLDER = r'./output_taxam/'
 if(not os.path.isdir(OUT_PUT_FOLDER)):
         os.mkdir(OUT_PUT_FOLDER)
+
+print('Writing final matrix.')
 # WRITTING OUTPUT
 with open(OUT_PUT_FOLDER + terminal['output_name'] + '.taxam', 'w') as f:
     f.write(header)
     f.write(rows)
+print('[Finished!]')
 
 # DELETING ./out_files/
 if(os.path.isdir('./out_files/') and os.listdir('./out_files/') == []):

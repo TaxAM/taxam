@@ -51,20 +51,25 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         args['mpp_sep'] = validDelimiter(args['mpp_sep'])        
         args['output_sep'] = validDelimiter(args['output_sep'])
         #STATUS
-        print('th: ' + str(number_of_thread) +  ' -> Contigs: ' + args['ref_taxon_path'])
-        print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
+        print('th: ' + str(number_of_thread) +  ' -> All fields as valid ' + args['mapping_reads_ref_path'])
 
         # Couting taxon for each read
         if with_reads:
             print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
             ctrl = args['file_to_use'] # 1, 2 or 3
-            args['reads_sep'] = validDelimiter(args['reads_sep'])        
+            args['reads_sep'] = validDelimiter(args['reads_sep'])
+            print('Opening read file...')        
             with open(args['reads_taxon_path']) as tax_file:
+                print('Reading read file...')
                 reader = csv.reader(tax_file, delimiter = args['reads_sep'])
+                print('Read stored')
                 qtt_read_lines_counter = 0
+                print('Reading lines')
                 for line in reader:
+                    print(line)
                     # if user wants that the program counts reads number for this sample
                     if args['matrix_mode'] == 2:
+                        print('Matrix mode 2')
                         if line[0] in ['C', 'U']:
                             if args['reads_quantity'] in [0, None]:
                                 qtt_read_lines_counter += 1
@@ -72,6 +77,7 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                                 qtt_read_lines_counter = args['reads_quantity']
                     # if this read is classified
                     if line[0] == 'C':
+                        print('Read classified.')
                         read_id = line[1]
                         taxon_pos = args['tax_level'] - 1
                         try:
@@ -89,11 +95,13 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                         else:
                             counter[read_id] = [taxon]
             args['reads_quantity'] = qtt_read_lines_counter
+        print('Reads read!')
             
 
 
         # Stores which taxon is each contig
         contig_tax = {}
+        print('th: ' + str(number_of_thread) +  ' -> Contigs: ' + args['ref_taxon_path'])
         with open(args['ref_taxon_path']) as tax_file:
             reader = csv.reader(tax_file, delimiter = args['contigs_sep'])
             for line in reader:
@@ -114,7 +122,9 @@ def execTaxam(my_args_lists, number_of_thread = 0):
 
                     # EX {'READA': {'R2': 1}}
                     contig_tax[contig_id] = taxon
+        print('Contigas read!')
 
+        print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
         # Adds contigs from the mapping to counting
         with open(args['mapping_reads_ref_path']) as tax_file:
             reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
@@ -133,7 +143,10 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                         
                 except Exception as e:
                     pass
+        print('Mapping read!')
+
         matrix = {}
+        print('Cleaning process and final counting process.')
         # Cleaning process and final counting process
         for read, taxons in counter.items():
             # Conflict situation
@@ -147,15 +160,18 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                     addInMatrix(matrix, taxons, 1)
             else:
                 addInMatrix(matrix, taxons, 0)
+        print('[Finished]')
 
         if(not os.path.isdir('out_files/')):
             os.mkdir('out_files/')
-
+        print('Sorting animals.')
         sorted_keys = sorted(matrix)
+        print('[Finished]')
         line = ''
         tmp_folder = './tmp/'
         for key in sorted_keys:
             line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
-
+        print('Writing data out of thread.')
         with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
             file.write(str(matrix) + ';' + str(args['reads_quantity']))
+        print('[Finished]')
