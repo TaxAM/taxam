@@ -25,9 +25,9 @@ except FileNotFoundError:
 list_of_times = []
 for execution in executions:
     # Float value of time in seconds
-    start = time.clock()
+    start = time.time()
     os.system(execution)
-    end = time.clock()
+    end = time.time()
     list_of_times.append(end - start)
 
 list_of_times.sort()

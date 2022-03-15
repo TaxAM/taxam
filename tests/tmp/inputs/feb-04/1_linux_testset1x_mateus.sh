@@ -1,0 +1,1 @@
+python "/tmp/taxam/first_model/taxam/execTaxam.py" -fp "/tmp/taxam/first_model/tests/tmp/inputs/feb-04/pool_esc_x/espec_folder" -tl 1 -fu 1 -op "a_output_level0_tie-reads"
