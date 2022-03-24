@@ -23,12 +23,15 @@ except FileNotFoundError:
     sys.exit('File not found.')
 
 list_of_times = []
+out_start = time.time()
 for execution in executions:
     # Float value of time in seconds
     start = time.time()
     os.system(execution)
     end = time.time()
     list_of_times.append(end - start)
+out_end = time.time()
+print('The time of the execution was: ' + str(out_end - out_start))
 
 list_of_times.sort()
 

@@ -38,7 +38,7 @@ if terminal['reads_quantity'] != None:
 if(os.path.isdir(terminal["folder_path"] + '/')) and terminal['folder_path'] != None:
     files = sorted(os.listdir(terminal['folder_path']))
 else:
-    sys.exit('This directory doesnt exists')
+    sys.exit(terminal["folder_path"] + ' does not exists')
 
 # CHECKING IF ALL SEPARATORS ARE VALID
 terminal['contigs_sep'] = validDelimiter(terminal['contigs_sep'])        

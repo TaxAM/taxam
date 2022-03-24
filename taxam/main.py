@@ -1,7 +1,9 @@
-import os, csv
+import csv
+import os
 from util import *
 
 def execTaxam(my_args_lists, number_of_thread = 0):
+    import time
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
         # Verifying if there are just necessary items in the terminal
@@ -53,6 +55,11 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         #STATUS
         print('th: ' + str(number_of_thread) +  ' -> All fields as valid ' + args['mapping_reads_ref_path'])
 
+        # COUNTING TIME OF READING READS
+        min_time = 5
+        av_time = []
+        max_time = 0
+
         # Couting taxon for each read
         if with_reads:
             print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
@@ -65,8 +72,10 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                 print('Read stored')
                 qtt_read_lines_counter = 0
                 print('Reading lines')
+                lines_counter = 0
                 for line in reader:
-                    print(line)
+                    # start = time.clock()
+                    # print(line)
                     # if user wants that the program counts reads number for this sample
                     if args['matrix_mode'] == 2:
                         print('Matrix mode 2')
@@ -77,7 +86,6 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                                 qtt_read_lines_counter = args['reads_quantity']
                     # if this read is classified
                     if line[0] == 'C':
-                        print('Read classified.')
                         read_id = line[1]
                         taxon_pos = args['tax_level'] - 1
                         try:
@@ -94,8 +102,21 @@ def execTaxam(my_args_lists, number_of_thread = 0):
                             counter[read_id].append(taxon)
                         else:
                             counter[read_id] = [taxon]
+                    # lines_counter += 1
+                    # print(lines_counter)
+                    # end = time.clock()
+                    # VERIFYING TIMES
+                    # my_time = end - start
+                    # if my_time < min_time:
+                    #     min_time = my_time
+                    # if my_time > max_time:
+                    #     max_time = my_time
+                    # av_time.append(my_time)
             args['reads_quantity'] = qtt_read_lines_counter
         print('Reads read!')
+        # with open('./reads_counter_time_LINUX.txt', 'w') as file:
+        #     file.write('Minimum time: ' + str(min_time) + '\nAverage time: ' + str(sum(av_time)/len(av_time)) + '\nMaximum time: ' + str(max_time) + '\nTotal read: ' + str(len(av_time)))
+            # file.write(f'Minimum time: {min_time}\nAverage time: {sum(av_time)/len(av_time)}\nMaximum time: {max_time}\nTotal read: {len(av_time)}')
             
 
 
@@ -122,7 +143,7 @@ def execTaxam(my_args_lists, number_of_thread = 0):
 
                     # EX {'READA': {'R2': 1}}
                     contig_tax[contig_id] = taxon
-        print('Contigas read!')
+        print('Contigs read!')
 
         print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
         # Adds contigs from the mapping to counting

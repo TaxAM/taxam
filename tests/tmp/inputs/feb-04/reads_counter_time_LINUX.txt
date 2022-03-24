@@ -1,4 +1,0 @@
-Minimum time: 2.99999999243e-06
-Average time: 0.00239611448
-Maximum time: 0.023964
-Total read: 75000
