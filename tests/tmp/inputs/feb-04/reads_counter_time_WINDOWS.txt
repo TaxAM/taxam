@@ -1,4 +1,0 @@
-Minimum time: 0.0
-Average time: 0.00012774832089742025
-Maximum time: 0.010000228881835938
-Total read: 75000
