@@ -64,6 +64,26 @@ def readContigs(args):
 
     return contig_tax
 
+def readMapping(args, counter, contig_tax):
+    with open(args['mapping_reads_ref_path']) as tax_file:
+        reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
+        for line in reader:
+            try:
+                taxon = contig_tax[line[1]]
+                read_id = line[0]
+
+                if taxon == 'NA':
+                        continue
+
+                if read_id in counter.keys():
+                    counter[read_id].append(taxon)
+                else:
+                    counter[read_id] = [taxon]
+                    
+            except Exception as e:
+                pass
+    return counter
+
 def execTaxam(my_args_lists, number_of_thread = 0):
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
@@ -127,7 +147,6 @@ def execTaxam(my_args_lists, number_of_thread = 0):
             
             print('Opening read file...')        
             counter, args['reads_quantity']  = readReads(args)
-
             print('Reads read!')
 
         '''
@@ -137,29 +156,16 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         '''
         print('th: ' + str(number_of_thread) +  ' -> Contigs: ' + args['ref_taxon_path'])
         contig_tax = readContigs(args)
-
         print('Contigs read!')
 
 
+        '''
+        //////////////////////////////////
+        Adds contigs from the mapping to counters.
+        //////////////////////////////////
+        '''
         print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
-        # Adds contigs from the mapping to counter
-        with open(args['mapping_reads_ref_path']) as tax_file:
-            reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
-            for line in reader:
-                try:
-                    taxon = contig_tax[line[1]]
-                    read_id = line[0]
-
-                    if taxon == 'NA':
-                            continue
-
-                    if read_id in counter.keys():
-                        counter[read_id].append(taxon)
-                    else:
-                        counter[read_id] = [taxon]
-                        
-                except Exception as e:
-                    pass
+        counter = readMapping(args, counter, contig_tax)
         print('Mapping read!')
 
         matrix = {}
