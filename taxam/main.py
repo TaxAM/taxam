@@ -2,8 +2,44 @@ import csv
 import os
 from util import *
 
+def readReads(args):
+    counter = {}
+    with open(args['reads_taxon_path']) as tax_file:
+        print('Reading read file...')
+        reader = csv.reader(tax_file, delimiter = args['reads_sep'])
+        print('Read stored')
+        qtt_read_lines_counter = 0
+        print('Reading lines')
+        for line in reader:
+            # if user wants that the program counts reads number for this sample
+            if args['matrix_mode'] == 2:
+                if line[0] in ['C', 'U']:
+                    if args['reads_quantity'] in [0, None]:
+                        qtt_read_lines_counter += 1
+                    else:
+                        qtt_read_lines_counter = args['reads_quantity']
+            # if this read is classified
+            if line[0] == 'C':
+                read_id = line[1]
+                taxon_pos = args['tax_level'] - 1
+                try:
+                    if line[3].split(';')[taxon_pos].replace(' ','') != '':
+                        taxon = line[3].split(';')[taxon_pos].strip()
+                    else:
+                        taxon = 'NA'
+                except:
+                    taxon = 'NA'
+                if taxon == 'NA':
+                    continue
+                # EX {'READA': ['R2']}
+                if read_id in counter.keys():
+                    counter[read_id].append(taxon)
+                else:
+                    counter[read_id] = [taxon]
+
+    return counter, qtt_read_lines_counter
+
 def execTaxam(my_args_lists, number_of_thread = 0):
-    import time
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
         # Verifying if there are just necessary items in the terminal
@@ -55,51 +91,21 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         #STATUS
         print('th: ' + str(number_of_thread) +  ' -> All fields as valid ' + args['mapping_reads_ref_path'])
 
-        # Couting taxon for each read
+        '''
+        //////////////////////////////////
+        Couting taxon for each read.
+        '''
         if with_reads:
             print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
-            ctrl = args['file_to_use'] # 1, 2 or 3
             args['reads_sep'] = validDelimiter(args['reads_sep'])
+            
             print('Opening read file...')        
-            with open(args['reads_taxon_path']) as tax_file:
-                print('Reading read file...')
-                reader = csv.reader(tax_file, delimiter = args['reads_sep'])
-                print('Read stored')
-                qtt_read_lines_counter = 0
-                print('Reading lines')
-                lines_counter = 0
-                for line in reader:
-                    # start = time.clock()
-                    # print(line)
-                    # if user wants that the program counts reads number for this sample
-                    if args['matrix_mode'] == 2:
-                        print('Matrix mode 2')
-                        if line[0] in ['C', 'U']:
-                            if args['reads_quantity'] in [0, None]:
-                                qtt_read_lines_counter += 1
-                            else:
-                                qtt_read_lines_counter = args['reads_quantity']
-                    # if this read is classified
-                    if line[0] == 'C':
-                        read_id = line[1]
-                        taxon_pos = args['tax_level'] - 1
-                        try:
-                            if line[3].split(';')[taxon_pos].replace(' ','') != '':
-                                taxon = line[3].split(';')[taxon_pos].strip()
-                            else:
-                                taxon = 'NA'
-                        except:
-                            taxon = 'NA'
-                        if taxon == 'NA':
-                            continue
-                        # EX {'READA': ['R2']}
-                        if read_id in counter.keys():
-                            counter[read_id].append(taxon)
-                        else:
-                            counter[read_id] = [taxon]
+            counter, args['reads_quantity']  = readReads(args)
 
-            args['reads_quantity'] = qtt_read_lines_counter
-        print('Reads read!')
+            print('Reads read!')
+        '''
+        //////////////////////////////////
+        '''
 
         # Stores which taxon is each contig
         contig_tax = {}
@@ -150,6 +156,7 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         matrix = {}
         print('Cleaning process and final counting process.')
         # Cleaning process and final counting process
+        ctrl = args['file_to_use'] # 1, 2 or 3
         for read, taxons in counter.items():
             # Conflict situation
             # Does something if contig and read pointed to different bichos

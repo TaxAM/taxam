@@ -1,6 +1,6 @@
-from threading import Thread
+import argparse, os, shutil
 from main import *
-import os, argparse, shutil
+from threading import Thread
 
 parse = argparse.ArgumentParser(description='Execute taxam.', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01 -fu 2',)
 
