@@ -39,6 +39,31 @@ def readReads(args):
 
     return counter, qtt_read_lines_counter
 
+def readContigs(args):
+    contig_tax = {}
+    with open(args['ref_taxon_path']) as tax_file:
+        reader = csv.reader(tax_file, delimiter = args['contigs_sep'])
+        for line in reader:
+            # if this read is classified
+            if line[0] == 'C':
+                contig_id = line[1]
+                taxon_pos = args['tax_level'] - 1
+                try:
+                    if line[3].split(';')[taxon_pos].replace(' ','') != '':
+                        taxon = line[3].split(';')[taxon_pos].strip()
+                    else:
+                        taxon = 'NA'
+                except:
+                    taxon = 'NA'
+
+                if taxon == 'NA':
+                    continue
+
+                # EX {'READA': {'R2': 1}}
+                contig_tax[contig_id] = taxon
+
+    return contig_tax
+
 def execTaxam(my_args_lists, number_of_thread = 0):
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
@@ -94,6 +119,7 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         '''
         //////////////////////////////////
         Couting taxon for each read.
+        //////////////////////////////////
         '''
         if with_reads:
             print('th: ' + str(number_of_thread) +  ' -> Reads: ' + args['reads_taxon_path'])
@@ -103,37 +129,20 @@ def execTaxam(my_args_lists, number_of_thread = 0):
             counter, args['reads_quantity']  = readReads(args)
 
             print('Reads read!')
+
         '''
         //////////////////////////////////
+        Stores which taxon is each contig.
+        //////////////////////////////////
         '''
-
-        # Stores which taxon is each contig
-        contig_tax = {}
         print('th: ' + str(number_of_thread) +  ' -> Contigs: ' + args['ref_taxon_path'])
-        with open(args['ref_taxon_path']) as tax_file:
-            reader = csv.reader(tax_file, delimiter = args['contigs_sep'])
-            for line in reader:
-                # if this read is classified
-                if line[0] == 'C':
-                    contig_id = line[1]
-                    taxon_pos = args['tax_level'] - 1
-                    try:
-                        if line[3].split(';')[taxon_pos].replace(' ','') != '':
-                            taxon = line[3].split(';')[taxon_pos].strip()
-                        else:
-                            taxon = 'NA'
-                    except:
-                        taxon = 'NA'
+        contig_tax = readContigs(args)
 
-                    if taxon == 'NA':
-                        continue
-
-                    # EX {'READA': {'R2': 1}}
-                    contig_tax[contig_id] = taxon
         print('Contigs read!')
 
+
         print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
-        # Adds contigs from the mapping to counting
+        # Adds contigs from the mapping to counter
         with open(args['mapping_reads_ref_path']) as tax_file:
             reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
             for line in reader:
