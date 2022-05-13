@@ -82,7 +82,35 @@ def readMapping(args, counter, contig_tax):
                     
             except Exception as e:
                 pass
-    return counter
+
+def cleaningProcess(counter, matrix, ctrl):
+    for read, taxons in counter.items():
+        # Conflict situation
+        # Does something if contig and read pointed to different bichos
+        if len(taxons) == 2 and taxons[0] != taxons[1]:
+            # If use reads
+            if ctrl == 1:
+                addInMatrix(matrix, taxons, 0)
+            # If use contigs
+            elif ctrl == 2:
+                addInMatrix(matrix, taxons, 1)
+        else:
+            addInMatrix(matrix, taxons, 0)
+
+def storeMatrix(args, matrix):
+    if(not os.path.isdir('out_files/')):
+        os.mkdir('out_files/')
+    print('Sorting animals.')
+    sorted_keys = sorted(matrix)
+    print('[Finished]')
+    line = ''
+    tmp_folder = './tmp/'
+    for key in sorted_keys:
+        line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
+    print('Writing data out of thread.')
+    with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
+        file.write(str(matrix) + ';' + str(args['reads_quantity']))
+    print('[Finished]')
 
 def execTaxam(my_args_lists, number_of_thread = 0):
     for my_args_list in my_args_lists:
@@ -165,37 +193,19 @@ def execTaxam(my_args_lists, number_of_thread = 0):
         //////////////////////////////////
         '''
         print('th: ' + str(number_of_thread) +  ' -> Mapping: ' + args['mapping_reads_ref_path'])
-        counter = readMapping(args, counter, contig_tax)
+        readMapping(args, counter, contig_tax)
         print('Mapping read!')
 
+        '''
+        //////////////////////////////////
+        Cleaning process and final counting process.
+        //////////////////////////////////
+        '''
         matrix = {}
-        print('Cleaning process and final counting process.')
-        # Cleaning process and final counting process
         ctrl = args['file_to_use'] # 1, 2 or 3
-        for read, taxons in counter.items():
-            # Conflict situation
-            # Does something if contig and read pointed to different bichos
-            if len(taxons) == 2 and taxons[0] != taxons[1]:
-                # If use reads
-                if ctrl == 1:
-                    addInMatrix(matrix, taxons, 0)
-                # If use contigs
-                elif ctrl == 2:
-                    addInMatrix(matrix, taxons, 1)
-            else:
-                addInMatrix(matrix, taxons, 0)
+        print('Cleaning process and final counting process.')
+        cleaningProcess(counter, matrix, ctrl)
+
         print('[Finished]')
 
-        if(not os.path.isdir('out_files/')):
-            os.mkdir('out_files/')
-        print('Sorting animals.')
-        sorted_keys = sorted(matrix)
-        print('[Finished]')
-        line = ''
-        tmp_folder = './tmp/'
-        for key in sorted_keys:
-            line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
-        print('Writing data out of thread.')
-        with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
-            file.write(str(matrix) + ';' + str(args['reads_quantity']))
-        print('[Finished]')
+        storeMatrix(args, matrix)
