@@ -1,8 +1,30 @@
+"""Package to store functions to take care about the taxam matrix process"""
 import csv
 import os
 from utils import addInMatrix, getSuffix
 
 def cleaningProcess(counter, matrix, ctrl):
+    """Check for each Read Id if there is more than one animal, if so, it
+    checks if they are different animals, if so, it uses the ctrl variable
+    to resolve the conflict, and then, adds it to the matrix, or not add, if
+    the users have set ctrl variable as 3, to discart this Read Id. If there
+    is just one animal, so it just adds to the matrix. 
+
+
+    Parameters
+    ----------
+    counter : dict
+        Each key is a Read Id, and its value is a list with one or two
+        animals. Like:
+        {'READ11': ['RE2', 'RE1'], 'READ8': ['RE4']}
+    matrix : dict
+        Each key is an Animal Name, and its value is a int representing how
+        many times this animal appears. Like:
+        {'RE2': 16, 'RE1': 1}
+    ctrl : int
+        Used to resolve conflicts if for a Read Id there are two different
+        animals. 1-Animal from reads, 2-Animal from contigs, 3-No one animal.
+    """
     for read, taxons in counter.items():
         # Conflict situation
         # Does something if contig and read pointed to different bichos
