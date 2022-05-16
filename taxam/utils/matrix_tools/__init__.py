@@ -38,7 +38,7 @@ def cleaningProcess(counter, matrix, ctrl):
         else:
             addInMatrix(matrix, taxons, 0)
 
-def readReads(args):
+def readReads(args):    
     """For each line from a read file, it checks if it's classified, if so, it
     stores its taxon in a list of the dict counter with the key as the current
     Read Id. Moreover, this function counts the number of read file lines, if
@@ -70,7 +70,6 @@ def readReads(args):
         The number of reads in this Read file.
     """    
     counter = {}
-    print(f'Type: {type(args["reads_taxon_path"])}, content: {args["reads_taxon_path"]}\n\n')
     with open(args['reads_taxon_path']) as tax_file:
         print('Reading read file...')
         reader = csv.reader(tax_file, delimiter = args['reads_sep'])
@@ -106,6 +105,28 @@ def readReads(args):
     return counter, qtt_read_lines_counter
 
 def readContigs(args):
+    """For each line from a contigs file, it checks if it's classified, if so, it
+    stores its taxon in a list of the dict counter with the key as the current
+    Read Id.
+
+    Parameters
+    ----------
+    args : dict
+        Dictionary with all arguments for function execTaxam. Keys used here:
+        ['ref_taxon_path'] : str
+            Path to the Contigs file for this sample.
+        ['contigs_sep'] : str
+            Separator used to breack line chunks.
+        ['tax_level'] : int
+            Number to set which taxon level to use. 1-Kingdom, 2-Phylum,
+            3-Class, 4-Order, 5-Family, 6-Genus, 7-Species.
+
+    Returns
+    -------
+    dict
+        Each key is a Contig Id, and its value is an animals. Like:
+        {'CONTIG1': 'RE2', 'CONTIG5': 'RE2'}
+    """    
     contig_tax = {}
     with open(args['ref_taxon_path']) as tax_file:
         reader = csv.reader(tax_file, delimiter = args['contigs_sep'])
@@ -125,9 +146,7 @@ def readContigs(args):
                 if taxon == 'NA':
                     continue
 
-                # EX {'READA': {'R2': 1}}
                 contig_tax[contig_id] = taxon
-
     return contig_tax
 
 def readMapping(args, counter, contig_tax):
