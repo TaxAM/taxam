@@ -1,7 +1,33 @@
+"""Library with generic tools to me used in taxam project.
+
+Functions
+---------
+isAscii(s)
+verifyExtension(files, extention)
+printDict(dict)
+addInMatrix(matrix, taxon, level=5)
+replaceEscapeCode(word)
+validDelimiter(word)
+getPrefix(file, sep)
+getSuffix(file, sep)
+returnIntegerList(string = '')
+"""
 import sys
 
-def is_ascii(s):
-    return all(ord(c) < 128 for c in s)
+def isAscii(word):
+    """Check if all characters of this words are an ascii character.
+
+    Parameters
+    ----------
+    word : str
+        Word to be verified.
+
+    Returns
+    -------
+    bool
+        True if all characters are ascii characters,or false, if not..
+    """
+    return all(ord(character) < 128 for character in word)
 
 def verifyExtension(files, extention):
     for file in files:
@@ -45,7 +71,7 @@ def replaceEscapeCode(word):
 def validDelimiter(word):
     # If len is just 1
     if len(word) == 1:        
-        if not is_ascii(word):
+        if not isAscii(word):
             print('Wronge delimiter: ' + word)
             exit()
         else:
