@@ -188,6 +188,26 @@ def readMapping(args, counter, contig_tax):
                 pass
 
 def storeMatrix(args, matrix):
+    """Creates (if does not exits yet) a directory to store a temporary txt
+    file with this sample matrix's informations, to be used for the main
+    script.
+
+    Parameters
+    ----------
+    args : dict
+        Dictionary with all arguments for function execTaxam. Keys used here:
+        ['output_sep'] : str
+            Separator used to gap each chunk in a matrix line.
+        ['ref_taxon_path'] : str
+            Path to store the temporary txt file with matrix informations.
+        ['reads_quantity'] : int
+            The number of reads in this Read file.
+
+    matrix : dict
+        Each key is an Animal Name, and its value is a int representing how
+        many times this animal appears. Like:
+        {'RE2': 16, 'RE1': 1}
+    """    
     if(not os.path.isdir('out_files/')):
         os.mkdir('out_files/')
     print('Sorting animals.')
