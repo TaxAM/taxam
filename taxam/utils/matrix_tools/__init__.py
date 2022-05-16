@@ -39,7 +39,36 @@ def cleaningProcess(counter, matrix, ctrl):
             addInMatrix(matrix, taxons, 0)
 
 def readReads(args):
+    """For each line from a read file, it checks if it's classified, if so, it
+    stores its taxon in a list of the dict counter with the key as the current
+    Read Id. Moreover, this function counts the number of read file lines, if
+    the user requested for a absolute TaxAM matrix. 
+
+    Parameters
+    ----------
+    args : dict
+        Dictionary with all arguments for function execTaxam. Keys used here:
+        ['reads_taxon_path'] : str
+            Path to the Read file for this sample.
+        ['matrix_mode'] : int
+            Mode to create matrix. 1 - abosolute, 2 - relative.
+        ['reads_quantity'] : int
+            The number of reads specified by user.
+        ['tax_level'] : int
+            Number to set which taxon level to use. 1-Kingdom, 2-Phylum,
+            3-Class, 4-Order, 5-Family, 6-Genus, 7-Species.
+
+    Returns
+    -------
+    dict
+        Each key is a Read Id, and its value is a list with one or two
+        animals. Like:
+        {'READ11': ['RE2', 'RE1'], 'READ8': ['RE4']}
+    int
+        The number of reads in this Read file.
+    """    
     counter = {}
+    print(f'Type: {type(args["reads_taxon_path"])}, content: {args["reads_taxon_path"]}\n\n')
     with open(args['reads_taxon_path']) as tax_file:
         print('Reading read file...')
         reader = csv.reader(tax_file, delimiter = args['reads_sep'])
@@ -52,7 +81,7 @@ def readReads(args):
                 if line[0] in ['C', 'U']:
                     if args['reads_quantity'] in [0, None]:
                         qtt_read_lines_counter += 1
-                    else:
+                    elif qtt_read_lines_counter == 0:
                         qtt_read_lines_counter = args['reads_quantity']
             # if this read is classified
             if line[0] == 'C':
@@ -72,7 +101,6 @@ def readReads(args):
                     counter[read_id].append(taxon)
                 else:
                     counter[read_id] = [taxon]
-
     return counter, qtt_read_lines_counter
 
 def readContigs(args):
