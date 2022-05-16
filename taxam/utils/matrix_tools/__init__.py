@@ -53,7 +53,7 @@ def readReads(args):
         ['matrix_mode'] : int
             Mode to create matrix. 1 - abosolute, 2 - relative.
         ['reads_sep'] : str
-            Separator used to breack line chunks.
+            Separator used to break line in chunks.
         ['reads_quantity'] : int
             The number of reads specified by user.
         ['tax_level'] : int
@@ -116,7 +116,7 @@ def readContigs(args):
         ['ref_taxon_path'] : str
             Path to the Contigs file for this sample.
         ['contigs_sep'] : str
-            Separator used to breack line chunks.
+            Separator used to break line in chunks.
         ['tax_level'] : int
             Number to set which taxon level to use. 1-Kingdom, 2-Phylum,
             3-Class, 4-Order, 5-Family, 6-Genus, 7-Species.
@@ -150,6 +150,25 @@ def readContigs(args):
     return contig_tax
 
 def readMapping(args, counter, contig_tax):
+    """Stores animals from Contigs file to counter.
+
+    Parameters
+    ----------
+    args : dict
+        Dictionary with all arguments for function execTaxam. Keys used here:
+        ['mapping_reads_ref_path'] : str
+            Path to the Mapping file for this sample.
+        ['mpp_sep'] : str
+            Separator used to break line in chunks.
+    counter : dict
+        Each key is a Read Id, and its value is a list with one or two
+        animals. Like:
+        {'READ11': ['RE2', 'RE1'], 'READ8': ['RE4']}
+    contig_tax : dict
+        Each key is a Contig Id, and its value is an animals. Like:
+        {'CONTIG1': 'RE2', 'CONTIG5': 'RE2'}
+    """
+    # print(f'Here we have: {counter}, its type is: {type(counter)}')
     with open(args['mapping_reads_ref_path']) as tax_file:
         reader = csv.reader(tax_file, delimiter = args['mpp_sep'])
         for line in reader:
