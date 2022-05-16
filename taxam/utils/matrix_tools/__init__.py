@@ -52,6 +52,8 @@ def readReads(args):
             Path to the Read file for this sample.
         ['matrix_mode'] : int
             Mode to create matrix. 1 - abosolute, 2 - relative.
+        ['reads_sep'] : str
+            Separator used to breack line chunks.
         ['reads_quantity'] : int
             The number of reads specified by user.
         ['tax_level'] : int
