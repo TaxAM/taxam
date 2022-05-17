@@ -8,7 +8,8 @@ verifyExtension(files, extention)
     Verify if the files have the right extension.
 printDict(dict)
     Prints a dict in the format: <key> -> <value>\\n
-addInMatrix(matrix, taxon, level=5)
+addInMatrix(matrix, taxon, level)
+    Adds the counting of a animal to dict matrix.
 replaceEscapeCode(word)
 validDelimiter(word)
 getPrefix(file, sep)
@@ -66,15 +67,24 @@ def printDict(dict):
         print(k, ' -> ', v)
 
 
-global c
-c = 0
-def addInMatrix(matrix, taxon, level=5):
-    global c
+def addInMatrix(matrix, taxon, level):
+    """Adds the counting of a animal to dict matrix.
+
+    Parameters
+    ----------
+    matrix : dict
+        Each key is an Animal Name, and its value is a int representing how
+        many times this animal appears. Like:
+        {'RE2': 16, 'RE1': 1}
+    taxon : list
+        List with 2 or 1 animal. Like:
+        ['RE1', 'RE7']
+    level : int
+        Which animal count adds to the matrix.
+    """    
     try:
-        c += 1
         matrix[taxon[level]] += 1
     except:
-        c += 1
         matrix[taxon[level]] = 1
 
 
