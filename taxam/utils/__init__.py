@@ -7,6 +7,7 @@ isAscii(s) : bool
 verifyExtension(files, extention)
     Verify if the files have the right extension.
 printDict(dict)
+    Prints a dict in the format: <key> -> <value>\\n
 addInMatrix(matrix, taxon, level=5)
 replaceEscapeCode(word)
 validDelimiter(word)
@@ -54,6 +55,13 @@ def verifyExtension(files, extention):
 
 
 def printDict(dict):
+    """Prints a dict in the format: <key> -> <value>\\n
+
+    Parameters
+    ----------
+    dict : dict
+        Generic dictionary
+    """    
     for k, v in dict.items():
         print(k, ' -> ', v)
 
