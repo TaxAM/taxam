@@ -2,8 +2,10 @@
 
 Functions
 ---------
-isAscii(s)
+isAscii(s) : bool
+    Check if all characters of this words are an ascii character.
 verifyExtension(files, extention)
+    Verify if the files have the right extension.
 printDict(dict)
 addInMatrix(matrix, taxon, level=5)
 replaceEscapeCode(word)
@@ -30,6 +32,21 @@ def isAscii(word):
     return all(ord(character) < 128 for character in word)
 
 def verifyExtension(files, extention):
+    """Verify if the files have the right extension.
+
+    Parameters
+    ----------
+    files : str[]
+        A list  with all the file paths to be verified.
+    extention : str
+        Extension to verify match.
+
+    Returns
+    -------
+    bool
+        If all the files match with the right extension, it returns True,
+        if just one don't match, it return False.
+    """    
     for file in files:
         if file != None and extention != file.split('.')[-1]:
             return False
