@@ -11,12 +11,14 @@ printDict(dict)
 addInMatrix(matrix, taxon, level)
     Adds the counting of a animal to dict matrix.
 replaceEscapeCode(word)
+    Replace a str escape code for a real escape code.
 validDelimiter(word)
 getPrefix(file, sep)
 getSuffix(file, sep)
 returnIntegerList(string = '')
 """
 import sys
+
 
 def isAscii(word):
     """Check if all characters of this words are an ascii character.
@@ -32,6 +34,7 @@ def isAscii(word):
         True if all characters are ascii characters,or false, if not..
     """
     return all(ord(character) < 128 for character in word)
+
 
 def verifyExtension(files, extention):
     """Verify if the files have the right extension.
@@ -88,8 +91,19 @@ def addInMatrix(matrix, taxon, level):
         matrix[taxon[level]] = 1
 
 
-
 def replaceEscapeCode(word):
+    """Replace a str escape code for a real escape code.
+
+    Parameters
+    ----------
+    word : str
+        Escape code to be verified.
+
+    Returns
+    -------
+    _type_
+        _description_
+    """    
     if word == r'\b':
         return '\b'
     elif word == r'\t':
