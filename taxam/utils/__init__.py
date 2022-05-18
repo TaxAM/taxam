@@ -124,6 +124,7 @@ def replaceEscapeCode(word):
     else:
         return word
 
+
 def validDelimiter(word):
     """Check if word is a valid delimiter, like \\t, for instance.
 

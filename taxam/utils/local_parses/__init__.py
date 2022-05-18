@@ -29,7 +29,7 @@ def local_parses():
 
     parser.add_argument('-th', '--thread_number', help = 'Number of threads to be used.', type = int, action = 'store', default = 1)
 
-    parser.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. Relative or Absolute.', type = int, action = 'store', default = 1, choices=[1,2])
+    parser.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. 1 - Absolute, 2 - Relative.', type = int, action = 'store', default = 1, choices=[1,2])
 
     parser.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample. If there are 3 samples: spa, spb, spc, use spa:100,spb:150,spc:275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance spa:0,spb:125,spc:0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
 
