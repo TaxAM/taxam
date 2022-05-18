@@ -1,9 +1,44 @@
-import os
+"""Stores the function to be used by a thread."""
 import sys
 from utils import validDelimiter, verifyExtension
 from utils.matrix_tools import  cleaningProcess, readContigs, readMapping, readReads, storeMatrix
 
 def execTaxam(my_args_lists, number_of_thread = 0):
+    """Generates and stores a Taxam Matrix file.
+
+    Parameters
+    ----------
+    my_args_lists : list
+        A list with one or more lists, each one for data of a different
+        sample. Each list has:
+            [0] : int
+                Taxon level.
+            [1] : str
+                Contigs file path.
+            [2] : str
+                Mapping file path.
+            [3] : str
+                Reads file path.
+            [4] : str
+                Separator for the reads file.
+            [5] : str
+                Separator for the contigs file.
+            [6] : str
+                Separator for the mapping file.
+            [7] : str
+                Separator for the output file.
+            [8] : str
+                Output file's name.
+            [9] : int
+                Used to resolve conflicts if for a Read Id there are two
+                different animals. 1-Animal from reads, 2-Animal from contigs,
+                3-No one animal.
+            [10] : int
+                Mode to create the matrix. 1 - Absolute, 2 - Relative.
+            [11] : str
+    number_of_thread : int, optional
+        Number of the current thread, by default 0.
+    """    
     for my_args_list in my_args_lists:
         tmp_list = my_args_list
         # Verifying if there are just necessary items in the terminal
