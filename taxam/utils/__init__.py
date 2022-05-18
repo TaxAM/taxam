@@ -15,7 +15,11 @@ replaceEscapeCode(word)
 validDelimiter(word)
     Check if word is a valid delimiter, like \\t, for instance.
 getPrefix(file, sep)
+    For file like reads_<readsId>.txt, it returns the prefix of the file, in
+    this case 'reads'. In this case, we use _ as separator, but it can be set.
 getSuffix(file, sep)
+    For file like reads_<readsId>.txt, it returns the suffix of the file, in
+    this case '<readsId>'. In this case, we use _ as separator, but it can be set.
 returnIntegerList(string = '')
 """
 import sys
@@ -145,9 +149,8 @@ def validDelimiter(word):
 
 
 def getPrefix(file, sep):
-    """For file like reads_<readId>.txt returns the prefix, it returns the
-    prefix of the file, in this case 'reads'. In this case, we use _ as
-    separator, but it can be set.
+    """For file like reads_<readsId>.txt, it returns the prefix of the file, in
+    this case 'reads'. In this case, we use _ as separator, but it can be set.
 
     Parameters
     ----------
@@ -165,6 +168,21 @@ def getPrefix(file, sep):
 
 
 def getSuffix(file, sep):
+    """For file like reads_<readsId>.txt, it returns the suffix of the file, in
+    this case '<readsId>'. In this case, we use _ as separator, but it can be set.
+
+    Parameters
+    ----------
+    file : str
+        File name + its extension.
+    sep : str
+        Separator used to separate file type to its id.
+
+    Returns
+    -------
+    str
+        The file's suffix.
+    """ 
     return file.split('.')[0].split(sep)[-1]
 
 
