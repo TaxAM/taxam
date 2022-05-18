@@ -21,6 +21,8 @@ getSuffix(file, sep)
     For file like reads_<readsId>.txt, it returns the suffix of the file, in
     this case '<readsId>'. In this case, we use _ as separator, but it can be set.
 returnIntegerList(string = '')
+    Transform a str like A:100,C:200,B:150 into a dict like
+    {'A':100, 'C':200, 'B':150}.
 """
 import sys
 
@@ -186,8 +188,21 @@ def getSuffix(file, sep):
     return file.split('.')[0].split(sep)[-1]
 
 
-def returnIntegerList(string = ''):
-    tmp_list = string.split(',')
+def returnIntegerList(word = ''):
+    """Transform a str like A:100,C:200,B:150 into a dict like
+    {'A':100, 'C':200, 'B':150}.
+
+    Parameters
+    ----------
+    word : str, optional
+        String to transformed into a dict, by default ''.
+
+    Returns
+    -------
+    dict
+        Each key is a Sample Id and its value is the Sample's number of reads.
+    """    
+    tmp_list = word.split(',')
     final_list = {}
     for item in tmp_list:
         try:
