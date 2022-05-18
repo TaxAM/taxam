@@ -13,6 +13,7 @@ addInMatrix(matrix, taxon, level)
 replaceEscapeCode(word)
     Replace a str escape code for a real escape code.
 validDelimiter(word)
+    Check if word is a valid delimiter, like \\t, for instance.
 getPrefix(file, sep)
 getSuffix(file, sep)
 returnIntegerList(string = '')
@@ -101,8 +102,8 @@ def replaceEscapeCode(word):
 
     Returns
     -------
-    _type_
-        _description_
+    str
+        It return escape code or a simple str.
     """    
     if word == r'\b':
         return '\b'
@@ -118,19 +119,29 @@ def replaceEscapeCode(word):
         return word
 
 def validDelimiter(word):
+    """Check if word is a valid delimiter, like \\t, for instance.
+
+    Parameters
+    ----------
+    word : str
+        Word to check if is a valida delimiter.
+
+    Returns
+    -------
+    bool
+        The right delimiter.
+    """    
     # If len is just 1
     if len(word) == 1:        
         if not isAscii(word):
-            print('Wronge delimiter: ' + word)
-            exit()
+            exit('Wronge delimiter: ' + word)
         else:
             return word
     # If len is 2, first character is \ and second isalpha()
     elif len(word) == 2 and word[0] == '\\' and word[1].isalpha():
         return replaceEscapeCode(word)
     else:
-        print('Wronge delimiter: ' + word)
-        exit()
+        exit('Wronge delimiter: ' + word)
 
 
 def getPrefix(file, sep):
