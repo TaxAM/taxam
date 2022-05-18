@@ -1,8 +1,11 @@
+# PYTHON IMPORTS
 import os, shutil
-from execTaxam import execTaxam
 import sys
 from threading import Thread
-from utils import getPrefix, getSuffix, returnIntegerList, validDelimiter
+
+# LOCAL IMPORTS
+from execTaxam import execTaxam
+from utils import getPrefix, getSuffix, returnIntegerList, ROOT_PATH, validDelimiter
 from utils.local_parses import local_parses
 
 # Local parsers
@@ -90,7 +93,7 @@ print('Creating Threads.')
 box = []
 my_args = []
 
-# STORING ARGUMENTS LIST IN A BIGGER LIST
+# STORING ARGUMENTS LIST IN A BIGGEST LIST
 i = 0
 for key, value in file_names.items():
     box.append(terminal['tax_level'])
@@ -120,42 +123,43 @@ for key, value in file_names.items():
 
     my_args.append(box[:])
     box = []
-tmp_folder = './tmp/'
+tmp_folder = ROOT_PATH + r'/tmp/'
 if(not os.path.isdir(tmp_folder)):
         os.mkdir(tmp_folder)
 
 threads = []
 # Number of samples
-ns = len(file_names)
+samples_number = len(file_names)
 # Number of threads
-nt = terminal['thread_number']
-if nt > ns:
+threads_number = terminal['thread_number']
+if threads_number > samples_number:
     sys.exit('There are more threads than samples.')
-elif nt < 1:
+elif threads_number < 1:
     sys.exit('Informe a number of threads valid.')
 
-qtt_min = int(ns / nt)
-rest = ns % nt
+qtt_min = int(samples_number / threads_number)
+rest = samples_number % threads_number
 # BEGGINING OF CUT IN THE LIST
-bgg = 0
-for i in range(nt):
+beginning = 0
+for i in range(threads_number):
     # CURRENT QUANTITY PER LINE
-    crr_qtd = qtt_min + (1 if rest > 0 else 0)
+    current_qtt = qtt_min + (1 if rest > 0 else 0)
     rest -= 1
     # END OF CUT IN THE LIST
-    end = bgg + crr_qtd
+    end = beginning + current_qtt
     # CREATING THREAS LIST FOR EACH THREAD
-    threads.append(Thread(target=execTaxam, args=[my_args[bgg : end], i+1]))
-    bgg = end
+    threads.append(Thread(target=execTaxam, args=[my_args[beginning : end], i+1]))
+    beginning = end
 print('[Finished!]')
+
 print('Starting threads.')
 # IT STARTS THREADS
 for thread in threads:
     thread.start()
 
 # IT WAITS FOR THREADS TO FINISH
-for thr in threads:
-    thr.join()
+for thread in threads:
+    thread.join()
 print('[Finished!]')
 
 print('Getting data out of threads.')
@@ -164,6 +168,7 @@ if (os.path.isdir(tmp_folder)):
     files = sorted(os.listdir(tmp_folder))
 else:
     sys.exit(tmp_folder + ' directory doesnt exist.')
+
 # GETTING AND STORING DICTIONARY FROM TXT FILES
 data = {}
 terminal['reads_quantity'] = {}
@@ -209,17 +214,13 @@ for j in range(len(wights)):
 print('[Finished!]')
 
 # CHECKING IF OUTPUT FILE EXISTS
-OUT_PUT_FOLDER = r'./output_taxam/'
+OUT_PUT_FOLDER = ROOT_PATH + r'/output_taxam/'
 if(not os.path.isdir(OUT_PUT_FOLDER)):
         os.mkdir(OUT_PUT_FOLDER)
 
-print('Writing final matrix.')
 # WRITTING OUTPUT
+print('Writing final matrix.')
 with open(OUT_PUT_FOLDER + terminal['output_name'] + '.taxam', 'w') as f:
     f.write(header)
     f.write(rows)
 print('[Finished!]')
-
-# DELETING ./out_files/
-if(os.path.isdir('./out_files/') and os.listdir('./out_files/') == []):
-    os.rmdir('./out_files/')

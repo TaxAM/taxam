@@ -1,5 +1,10 @@
 """Library with generic tools to me used in taxam project.
 
+Constants
+---------
+ROOT_PATH : str
+    Root's absolute path.
+
 Functions
 ---------
 isAscii(s) : bool
@@ -26,6 +31,7 @@ returnIntegerList(string = '')
 """
 import sys
 
+ROOT_PATH = __path__[0] + '/..'
 
 def isAscii(word):
     """Check if all characters of this words are an ascii character.

@@ -1,7 +1,7 @@
 """Package to store functions to take care about the taxam matrix process"""
 import csv
 import os
-from utils import addInMatrix, getSuffix
+from utils import addInMatrix, getSuffix, ROOT_PATH
 
 def cleaningProcess(counter, matrix, ctrl):
     """Check for each Read Id if there is more than one animal, if so, it
@@ -207,14 +207,12 @@ def storeMatrix(args, matrix):
         Each key is an Animal Name, and its value is a int representing how
         many times this animal appears. Like:
         {'RE2': 16, 'RE1': 1}
-    """    
-    if(not os.path.isdir('out_files/')):
-        os.mkdir('out_files/')
+    """
     print('Sorting animals.')
     sorted_keys = sorted(matrix)
     print('[Finished]')
     line = ''
-    tmp_folder = './tmp/'
+    tmp_folder = ROOT_PATH + r'/tmp/'
     for key in sorted_keys:
         line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
     print('Writing data out of thread.')
