@@ -145,6 +145,22 @@ def validDelimiter(word):
 
 
 def getPrefix(file, sep):
+    """For file like reads_<readId>.txt returns the prefix, it returns the
+    prefix of the file, in this case 'reads'. In this case, we use _ as
+    separator, but it can be set.
+
+    Parameters
+    ----------
+    file : str
+        File name + its extension.
+    sep : str
+        Separator used to separate file type to its id.
+
+    Returns
+    -------
+    str
+        The file's prefix.
+    """    
     return file.split('.')[0].split(sep)[-2]
 
 
