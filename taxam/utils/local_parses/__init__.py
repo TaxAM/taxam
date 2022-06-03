@@ -2,14 +2,14 @@
 import argparse
 
 def local_parses():
-    """Function to create and retorn all the local parsers arguments.
+    """Function to create and return all the local parsers arguments.
 
     Returns
     -------
     argparse
         Object with parsers and its values.
     """    
-    parser = argparse.ArgumentParser(description='Execute taxam.', usage='python .\execTaxam.py -tl 3 -fp "folder_test" -op "test_01 -fu 2',)
+    parser = argparse.ArgumentParser(description='Execute taxam.', usage='python taxam -tl 3 -fp "folder_test" -op "test_01" -fu 2',)
 
     parser.add_argument('-tl', '--tax_level', help = 'Level of taxonomy to use. Taxonomy levels: 1-Kingdom, 2-Phylum, 3-Class, 4-Order, 5-Family, 6-Genus, 7-Species. Default: 1.',type = int, action = 'store', default = 1, choices = [int(i) for i in range(1, 8)])
 
@@ -31,6 +31,6 @@ def local_parses():
 
     parser.add_argument('-mm', '--matrix_mode', help = 'Mode to create the matrix. 1 - Absolute, 2 - Relative.', type = int, action = 'store', default = 1, choices=[1,2])
 
-    parser.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample. If there are 3 samples: spa, spb, spc, use spa:100,spb:150,spc:275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe as 0, for instance spa:0,spb:125,spc:0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
+    parser.add_argument('-rq', '--reads_quantity', help = 'Quantity of reads for each sample. If there are 3 samples: spa, spb, spc, use spa:100,spb:150,spc:275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe it as 0, for instance spa:0,spb:125,spc:0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc ', type = str, action = 'store', default = None)
 
     return parser.parse_args()
