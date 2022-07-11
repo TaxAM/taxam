@@ -25,6 +25,7 @@ def cleaningProcess(counter, matrix, ctrl):
         Used to resolve conflicts if for a Read Id there are two different
         animals. 1-Animal from reads, 2-Animal from contigs, 3-No one animal.
     """
+    discard_counter = 0
     for read, taxons in counter.items():
         # Conflict situation
         # Does something if contig and read pointed to different bichos
@@ -35,8 +36,11 @@ def cleaningProcess(counter, matrix, ctrl):
             # If use contigs
             elif ctrl == 2:
                 addInMatrix(matrix, taxons, 1)
+            else:
+                discard_counter += 1
         else:
             addInMatrix(matrix, taxons, 0)
+    print(f'Number of animal discarted: {discard_counter}')
 
 def readReads(args):    
     """For each line from a read file, it checks if it's classified, if so, it
@@ -90,7 +94,9 @@ def readReads(args):
                 taxon_pos = args['tax_level'] - 1
                 try:
                     if line[3].split(';')[taxon_pos].replace(' ','') != '':
-                        taxon = line[3].split(';')[taxon_pos].strip()
+                        levels = line[3].split(';')[:taxon_pos + 1]
+                        levels = [level.strip() for level in levels]
+                        taxon = '; '.join(levels).strip()
                     else:
                         taxon = 'NA'
                 except:
@@ -137,7 +143,9 @@ def readContigs(args):
                 taxon_pos = args['tax_level'] - 1
                 try:
                     if line[3].split(';')[taxon_pos].replace(' ','') != '':
-                        taxon = line[3].split(';')[taxon_pos].strip()
+                        levels = line[3].split(';')[:taxon_pos + 1]
+                        levels = [level.strip() for level in levels]
+                        taxon = '; '.join(levels).strip()
                     else:
                         taxon = 'NA'
                 except:
@@ -217,5 +225,5 @@ def storeMatrix(args, matrix):
         line += str(key) + args['output_sep'] + str(matrix[key]) + '\n'
     print('Writing data out of thread.')
     with open(tmp_folder + 'tx_' + getSuffix(args['ref_taxon_path'], '_') + '.txt', 'w') as file:
-        file.write(str(matrix) + ';' + str(args['reads_quantity']))
+        file.write(str(matrix) + ';;' + str(args['reads_quantity']))
     print('[Finished]')

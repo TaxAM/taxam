@@ -12,3 +12,4 @@ taxam_env/
 
 # TESTS
 tests/tmp/inputs/
+tests/output_taxam/

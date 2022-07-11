@@ -174,7 +174,7 @@ data = {}
 terminal['reads_quantity'] = {}
 for file in files:
     with open(tmp_folder + file, 'r') as f:
-        line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';')
+        line, terminal['reads_quantity'][getSuffix(file,'_')] = f.readline().split(';;')
         data[getSuffix(file,'_')] = eval(line.strip())
 
 # DELETE FOLDER

@@ -1,0 +1,48 @@
+Checking if all files are valid.
+[Finished!]
+Creating Threads.
+[Finished!]
+Starting threads.
+th: 1 -> All fields as valid C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/mapping_A.txt
+th: 1 -> Reads: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/reads_A.txt
+Opening read file...
+Reading read file...
+Read stored
+Reading lines
+Reads read!
+th: 1 -> Contigs: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/contigs_A.txt
+Contigs read!
+th: 1 -> Mapping: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/mapping_A.txt
+Mapping read!
+Cleaning process and final counting process.
+Number of animal discarted: 352576
+[Finished]
+Sorting animals.
+[Finished]
+Writing data out of thread.
+[Finished]
+th: 1 -> All fields as valid C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/mapping_B.txt
+th: 1 -> Reads: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/reads_B.txt
+Opening read file...
+Reading read file...
+Read stored
+Reading lines
+Reads read!
+th: 1 -> Contigs: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/contigs_B.txt
+Contigs read!
+th: 1 -> Mapping: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\taxamTestGenerator\samples/mapping_B.txt
+Mapping read!
+Cleaning process and final counting process.
+Number of animal discarted: 353698
+[Finished]
+Sorting animals.
+[Finished]
+Writing data out of thread.
+[Finished]
+[Finished!]
+Getting data out of threads.
+[Finished!]
+Sorting final matrix.
+[Finished!]
+Writing final matrix.
+[Finished!]

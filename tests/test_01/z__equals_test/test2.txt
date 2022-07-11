@@ -1,6 +1,14 @@
 [Identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01//kleber_out_files//saida03.txt
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_01//mateus_out_files//#01_kingdom_test_mat_3.taxam
+File 1: test_01///kleber_out_files//output_level0_tie-read.tsv
+File 2: test_01///mateus_out_files//output_level0_tie-reads.taxam
 
-[R1	11] - [+]
-[R2	8] - [+]
+[TaxAM	A	B] - [+]
+[RE1	114913	268195] - [+]
+[RE2	214265	262488] - [+]
+[RE3	341025	287885] - [+]
+[RE4	253529	147135] - [+]
+[RE5	107538	157768] - [+]
+[RE6	203260	196749] - [+]
+[RE7	181023	149466] - [+]
+[RE8	202104	151589] - [+]
+[RE9	264916	261063] - [+]
