@@ -1,6 +1,0 @@
-C	NC_004718.3	227984	Viruses; Riboviria; Orthornavirae; Pisuviricota; Pisoniviricetes; Nidovirales; Cornidovirineae; Coronaviridae; Orthocoronavirinae; Betacoronavirus; Sarbecovirus; Severe acute respiratory syndrome-related coronavirus; SARS coronavirus Tor2; 
-C	NC_009452.1	437444	Viruses; Ampullaviridae; Ampullavirus; Acidianus bottle-shaped virus; 
-C	NC_014373.1	565995	Viruses; Riboviria; Orthornavirae; Negarnaviricota; Haploviricotina; Monjiviricetes; Mononegavirales; Filoviridae; Ebolavirus; Bundibugyo ebolavirus; 
-C	NC_043439.1	1453404	Viruses; Riboviria; Orthornavirae; Negarnaviricota; Polyploviricotina; Ellioviricetes; Bunyavirales; Nairoviridae; Orthonairovirus; Tamdy orthonairovirus; Burana virus; 
-C	NC_055325.1	1055750	Viruses; Riboviria; Orthornavirae; Negarnaviricota; Polyploviricotina; Ellioviricetes; Bunyavirales; Phenuiviridae; Phlebovirus; Uriurana phlebovirus; Uriurana virus; 
-C	NC_055508.1	2560580	Viruses; Riboviria; Orthornavirae; Negarnaviricota; Haploviricotina; Monjiviricetes; Mononegavirales; Paramyxoviridae; Rubulavirinae; Orthorubulavirus; Mammalian orthorubulavirus 5; 

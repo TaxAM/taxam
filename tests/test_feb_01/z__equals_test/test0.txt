@@ -1,7 +1,0 @@
-[Non-identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_kleber//saida-classe-contig.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_mateus//saida-classe-contig.taxam
-
-[	A	B	C][Taxon	A	B	C] - [-]
-[CL1	1	2	1][CL1	3	13	3] - [-]
-[CL2	11	5	6][CL2	12	4	12] - [-]

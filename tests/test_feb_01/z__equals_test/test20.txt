@@ -1,7 +1,0 @@
-[Non-identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_kleber//saida-reino-read.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_mateus//saida-reino-read.taxam
-
-[	A	B	C][Taxon	A	B	C] - [-]
-[RE1	6	8	12][RE1	6	6	10] - [-]
-[RE2	10	10	5][RE2	9	11	5] - [-]

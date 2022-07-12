@@ -1,7 +1,0 @@
-[Non-identical files!]
-File 1: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_kleber//saida-genero-read.tsv
-File 2: C:\Users\Mateus\Documents\PAINTER\#02_TaxAM\#01_REPS\first_model\tests\test_feb_01//outs_mateus//saida-genero-read.taxam
-
-[	A	B	C][Taxon	A	B	C] - [-]
-[GE1	4	2	1][GE1	11	6	7] - [-]
-[GE2	2	3	1][GE2	4	11	8] - [-]

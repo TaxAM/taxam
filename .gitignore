@@ -1,7 +1,10 @@
+# Configs
 __pycache__/*.pyc
 *.pyc
 __pycache__
 */__pycache__
+
+# Local
 .vscode
 output_path
 pool_esc_a/
