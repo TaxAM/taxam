@@ -80,19 +80,18 @@ python taxam <flag_1> <valor_1> <flag_2> <valor_2> ...
 ```
 
 ### Flags:
-- `-tl` ou `--tax_level`: Nível de taxonomia a ser usado. Níveis de taxonomia: 1-Reino, 2-Filo, 3-Classe, 4-Ordem, 5-Família, 6-Gênero, 7-Espécie. Padrão: 1.
-- `-fp` ou `--folder_path`: Diretório onde estão os arquivos a serem usados.
-- `-rs` ou `--reads_sep`: Separador usado para separar cada coluna no arquivo de reads.
-- `-cs` ou `--contigs_sep`: Separador usado para separar cada coluna no arquivo de contigs.
-- `-ms` or `--mapping_sep MAPPING_SEP`: Separator used to part each collumn in mapping file.
-- `-ms` ou `--mapping_sep MAPPING_SEP`: Separador usado para separar cada coluna no arquivo de mapping.
-- `-os` ou `--output_sep`: Separador usado para separar cada coluna no arquivo de saída gerado pelo TaxAM.
-- `-op` ou `--output_name`: Nome do arquivo de saída gerado pelo TaxAM.
-- `-fu` or `--file_to_use`: In case of conflict, which file to be used .1-Reads, 2-Contigs, 3-No one. Default : 3.
-- `-fu` ou `--file_to_use`: Em caso de conflito, qual arquivo será usado. 1-Reads, 2-Contigs, 3-Nenhum. Padrão: 3.
-- `-th` ou `--thread_number`: Número de threads a serem usadas.
-- `-mm` ou `--matrix_mode`: Modo para criar a matriz. 1 - Absoluta, 2 - Relativa.
-- `-rq` ou `--reads_quantity`: Quantidade de reads para cada amostra. Se houver 3 amostras: spa,spb, spc, use spa:100,spb:150,spc:275 que são 100 reads para spa, 150 reads para spb, 275 reads para spc. Se você quiser que o programa calcule automaticamente para uma amostra específica, informe 0, por exemplo spa:0,spb:125,spc:0 que são 0 reads para spa, 125 reads para spb, 0 reads para spc.
+- `-tl` ou `--tax_level`: Nível de taxonomia a ser usado. Níveis de taxonomia: 1-Reino, 2-Filo, 3-Classe, 4-Ordem, 5-Família, 6-Gênero, 7-Espécie. **[Obrigatório | Padrão: 1]**
+- `-fp` ou `--folder_path`: Diretório onde estão os arquivos a serem usados. **[Obrigatório]**
+- `-rs` ou `--reads_sep`: Separador usado para separar cada coluna no arquivo de reads. **[Opcional | Padrão: "\t"]**
+- `-cs` ou `--contigs_sep`: Separador usado para separar cada coluna no arquivo de contigs. **[Opcional | Padrão: "\t"]**
+- `-ms` or `--mapping_sep MAPPING_SEP`: Separator used to part each collumn in mapping file. **[Opcional | Padrão: "\t"]**
+- `-ms` ou `--mapping_sep MAPPING_SEP`: Separador usado para separar cada coluna no arquivo de mapping. **[Opcional | Padrão: "\t"]**
+- `-os` ou `--output_sep`: Separador usado para separar cada coluna no arquivo de saída gerado pelo TaxAM. **[Opcional | Padrão: "\t"]**
+- `-op` ou `--output_name`: Nome do arquivo de saída gerado pelo TaxAM. **[Obrigatório | Padrão: "tx_matrix"]**
+- `-fu` ou `--file_to_use`: Em caso de conflito, qual arquivo será usado. 1-Reads, 2-Contigs, 3-Nenhum. **[Obrigatório | Padrão: 3]**
+- `-th` ou `--thread_number`: Número de threads a serem usadas. **[Opcional | Padrão: 1]**
+- `-mm` ou `--matrix_mode`: Modo para criar a matriz. 1-Absoluta, 2-Relativa. **[Opcional | Padrão: 1]**
+- `-rq` ou `--reads_quantity`: Quantidade de reads para cada amostra. Se houver 3 amostras: spa,spb, spc, use spa:100,spb:150,spc:275 que são 100 reads para spa, 150 reads para spb, 275 reads para spc. Se você quiser que o programa calcule automaticamente para uma amostra específica, informe 0, por exemplo spa:0,spb:125,spc:0 que são 0 reads para spa, 125 reads para spb, 0 reads para spc. **[Obrigatório apenas se o _matrix mode_ for 2]**
 
 ## Exemplo de uso do TaxAM
 ```sh
