@@ -93,7 +93,7 @@ python taxam <flag_1> <value_1> <flag_2> <value_2> ...
 - `-rq` or `--reads_quantity`: Quantity of reads for each sample. If there are 3 samples: spa,spb, spc, use spa:100,spb:150,spc:275 that is 100 reads for spa, 150 reads for spb, 275 reads for spc. If you want that program calculate automatically for specific sample, informe it as 0, for instance spa:0,spb:125,spc:0 that is 0 reads for spa, 125 reads for spb, 0 reads for spc. **[Required only if matrix mode was 2]**
 
 
-## Getiing Started
+## Getting Started
 ### **Generating fake data**
 First, you can download the TaxAM module that generate fake taxa data, just [click here](https://github.com/TaxAM/taxamTestGenerator).
 After this, let's create some fake data to play a little bit. Run the following commad:
@@ -103,26 +103,26 @@ python taxamTestGenerator -n pool_esc_a -s A,B -nt 9,9,9,9,9,9,9 -pt 0 -nr 100 -
 This will generate some samples in the directory `pool_esc_a/samples/`.
 
 ### **Mininum TaxAM command**
-After this, copy its absolute path and go back to taxam. Let's try run the minimum taxam command:
+After this, copy the samples folder absolute path and go back to TaxAM. Let's try run the minimum taxam command:
 ```sh
 python taxam -tl 1 -fp <samples_folder_path>
 ```
-This command will create a taxam file in the path `taxam/output_taxam/` classifying the samples based in tis first taxa level.
+This command will create a taxam file in the path `taxam/output_taxam/` classifying the samples based in its first taxa level.
 
 ### **Changing the taxon level**
-But, what it you want to classify it based in other level? Like, the third level, just change the flag `-tl 1` to `-tl 3`. This will replace your last file, use the flag `-op` to change the output filename. Like:
+But, what it you want to classify it based in other level? Like the third level. Just change the flag `-tl 1` to `-tl 3`. Changing just this will replace your last file. Use the flag `-op` to change the output filename. Like:
 ```sh
 python taxam -tl 3 -fp <samples_folder_path> -op "poolEscA_level3"
 ```
 
 ### Using a diferent separator
-In default mode, TaxAM uses "\t"(tab) a separator. Let's change it to see how it goes. For this let's change the separator to the output file and use `-` as a separator, but you can use any one-character as separator, we recommmend that you keep using the default value. Follow the command:
+In default mode, TaxAM uses "\t"(tab) as a separator. Let's change it to see how it goes. For this, let's change the separator to the output file and use `-` as a separator, but you can use any one-character as separator, we recommmend that you keep using the default value. Follow the command:
 ```sh
 python taxam -tl 3 -fp <samples_folder_path> -os "-" -op "poolEscA_with_a_different_separator"
 ```
 
 ### **What to do in a tie?**
-When TaxAM is classifying a sample, it can happen that a read and a contig matched points to differents animals. So what was TaxAM supposed to do? By default, TaxAM will discard both animals, but you can change it paramter through flag `-fu`, if you want that it uses the animal from read, use the value `1`, if you want that it uses the animal from contig, uses value `2`. Run the following commands to see its differences:
+When TaxAM is classifying a sample, it might happen that a read and a contig matched points to differents animals. So what was TaxAM supposed to do? By default, TaxAM will discard both animals, but you can change it paramter through flag `-fu`. If you want that it uses the animal from read, use the value `1`, if you want that it uses the animal from contig, uses value `2`. Run the following commands to see its differences:
 ```sh
 python taxam -tl 1 -fp <samples_folder_path> -fu 1 -op "poolEscA_using_read_when_tie"
 ```
@@ -134,7 +134,7 @@ python taxam -tl 1 -fp <samples_folder_path> -op "poolEscA_using_no_one_when_tie
 ```
 
 ### **Using more than 1 thread to run**
-In this pool, we have two samples. By default, TaxAM will process each sample at a time, to increase its performance you can specify it to run it in 2 threads, at the same time. Just add the flag `-th 2`, according the number threads you need. Run the following command:
+In this pool, we have two samples. By default, TaxAM will process each sample at a time. To increase its performance, you can specify it to run it in 2 threads at the same time. Just add the flag `-th 2`, according the number threads you need. Run the following command:
 ```sh
 python taxam -tl 1 -fp <samples_folder_path> -th 2 -op "poolEscA_with_two_threads"
 ```
@@ -144,7 +144,7 @@ By default, TaxAM generate an absolute matrix, if you want to change this behavi
 ```sh
 python taxam -tl 1 -fp <samples_folder_path> -mm 2 -op "poolEscA_as_absolute_matrix"
 ```
-TaxAM will count the classified reads to calculate the porcentage for each sample. But yourself can informe these values. Let's use our example: samples A e B use `A:100,B:150` as argument in the flag `-rq`, that is 100 reads for A, 150 reads for B. If you want that program calculate automatically for a specific sample, informe it as 0, for instance `A:0,B:125` that is 0 reads for A, 125 reads for B. Run the follow command to see it:
+TaxAM will count the classified reads to calculate the porcentage for each sample, but yourself can informe these values. Let's use our example: samples A e B use `A:100,B:150` as argument in the flag `-rq`, that is 100 reads for A, 150 reads for B. If you want that program calculate automatically for a specific sample, informe it as 0, for instance `A:0,B:125` that is 0 reads for A, 125 reads for B. Run the follow command to see it:
 ```sh
 python taxam -tl 1 -fp <samples_folder_path> -mm 2 -rq "A:100,B:150" -op "poolEscA_as_manual_absolute_matrix"
 ```

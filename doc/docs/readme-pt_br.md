@@ -93,8 +93,58 @@ python taxam <flag_1> <valor_1> <flag_2> <valor_2> ...
 - `-mm` ou `--matrix_mode`: Modo para criar a matriz. 1-Absoluta, 2-Relativa. **[Opcional | Padrão: 1]**
 - `-rq` ou `--reads_quantity`: Quantidade de reads para cada amostra. Se houver 3 amostras: spa,spb, spc, use spa:100,spb:150,spc:275 que são 100 reads para spa, 150 reads para spb, 275 reads para spc. Se você quiser que o programa calcule automaticamente para uma amostra específica, informe 0, por exemplo spa:0,spb:125,spc:0 que são 0 reads para spa, 125 reads para spb, 0 reads para spc. **[Obrigatório apenas se o _matrix mode_ for 2]**
 
-## Exemplo de uso do TaxAM
+## Primeiros passos
+
+### Gerando dados falsos
+Primeiro, baixe o módulo do TaxAM que gera dados de taxa falsos, [clique aqui](https://github.com/TaxAM/taxamTestGenerator) para fazer o download. Em seguida, vamos criar alguns dados falsos para darmos uma brincada. Rode o seguinde comando:
 ```sh
-python taxam -tl 3 -fp "folder_test" -op "test_01" -fu 2
+python taxamTestGenerator -n pool_esc_a -s A,B -nt 9,9,9,9,9,9,9 -pt 0 -nr 100 -nc 100 -pm 0.85 -tr 3000 -tc 1000 -cr 0.75 -cc 0.90 -mc 0.65
+```
+Isso irá gerar algumas amostras no diretório `pool_esc_a/samples/`.
+
+### Comando básico para o TaxAM
+Em seguida, copie o caminho abosoluto da pasta das amostras e volte para o TaxAM. Vamos rodar o comando básico para o TaxAM funcionar:
+```sh
+python taxam -tl 1 -fp <samples_folder_path>
+```
+Esse comando irá criar arquivo do tipo taxam no diretório `taxam/output_taxam/` classificando as amostras com no primeiro level da taxa.
+
+### Alterando o nível taxonômico
+Mas e se você  quiser classificar suas amostras baseadas em outro nível taxonômico? Como o nível 3. É só alterar a flag `-tl 1` para `-tl 3`. Alterando apenas isso fazer com que seu arquivo anterior seja substituído pelo novo. Use a flag `-op` para mudar o nome do arquivo de saída. Como:
+```sh
+python taxam -tl 3 -fp <samples_folder_path> -op "poolEscA_level3"
 ```
 
+### Usando um separador diferente
+Por padrão, o TaxAM usa "\t"(tab) como separador. Vamos alterar isso e ver o que acontece. Para isso, vamos alterar o separador do arquivo de saída e usar `-` como um separador, mas você pode utilizar qualquer caractere singular como separador, nós recomendamos que você siga usando o valor padrão. Reproduza o comando abaixo:
+```sh
+python taxam -tl 3 -fp <samples_folder_path> -os "-" -op "poolEscA_with_a_different_separator"
+```
+
+### O que fazer em caso de empate?
+Quando o TaxAM está cassificando uma amostra, pode acontecer de uma read e um contig mapeados juntos apontarem para diferentes bichos. O que o TaxAM deveria fazer nesse caso? Por padrão, o TaxAM irá descartar os dois bichos, mas é possível alterar esse parâmetro por meio da flag `-fu`. Se você quiser utilizar o bicho da read, use o valor `1`, se você quiser utilizar o bicho do contig, use o valor `2`. Execute os seguintes comandos para ver as diferenças:
+```sh
+python taxam -tl 1 -fp <samples_folder_path> -fu 1 -op "poolEscA_using_read_when_tie"
+```
+```sh
+python taxam -tl 1 -fp <samples_folder_path> -fu 2 -op "poolEscA_using_contig_when_tie"
+```
+```sh
+python taxam -tl 1 -fp <samples_folder_path> -op "poolEscA_using_no_one_when_tie"
+```
+
+### Utilizando mais do que uma thread na execução
+Nesse conjunto de amostras, nós temos duas amostras. Por padrão, o TaxAM irá processar uma amostra por vez. Para melhorar sua performance, você pode rodá-lo em duas threads ao mesmo tempo. Basta acrescentar a flag `-th 2`, de acordo com o número de threads que você precise. Execute o seguinte comando:
+```sh
+python taxam -tl 1 -fp <samples_folder_path> -th 2 -op "poolEscA_with_two_threads"
+```
+
+### Alterando o mode de saída da matriz
+Por padrão, o TaxAM gera uma matriz absoluta, se você quiser alterar esse comportamente, adicione a flag `-mm 2`. Por exemplo:
+```sh
+python taxam -tl 1 -fp <diretório_para_a_pasta_das_amostras> -mm 2 -op "poolEscA_as_absolute_matrix"
+```
+O TaxAM irá contar as reads classificadas para calcular a porcentagem para cada amostra, mas você pode informar esses valores. Vamos ver um exemplo: se houver as amostras A e B use A:100,B:150 que são 100 reads para A e  150 reads para B. Se você quiser que o programa calcule automaticamente para uma amostra específica, informe 0, por exemplo A:0,B:125 que são 0 reads para A, 125 reads para B.
+```sh
+python taxam -tl 1 -fp <diretório_para_a_pasta_das_amostras> -mm 2 -rq "A:100,B:150" -op "poolEscA_as_manual_absolute_matrix"
+```
