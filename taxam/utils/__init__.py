@@ -29,6 +29,7 @@ returnIntegerList(string = '')
     Transform a str like A:100,C:200,B:150 into a dict like
     {'A':100, 'C':200, 'B':150}.
 """
+import os
 import sys
 
 ROOT_PATH = __path__[0] + '/..'
@@ -173,6 +174,7 @@ def getPrefix(file, sep):
     str
         The file's prefix.
     """    
+    file = os.path.basename(file)
     return file.split('.')[0].split(sep)[-2]
 
 
@@ -192,6 +194,7 @@ def getSuffix(file, sep):
     str
         The file's suffix.
     """ 
+    file = os.path.basename(file)
     return file.split('.')[0].split(sep)[-1]
 
 
