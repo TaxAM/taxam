@@ -1,5 +1,7 @@
 # PYTHON IMPORTS
-import os, shutil
+import decimal
+import shutil
+import os
 import sys
 from threading import Thread
 
@@ -206,7 +208,13 @@ for j in range(len(wights)):
                 tmp_list.append(str(data[samples[i]][wights[j]]))
             # IF WE'RE USING RELATIVE MODE
             else:
-                tmp_list.append(str(data[samples[i]][wights[j]] / int(terminal['reads_quantity'][samples[i]])))
+                tmp_list.append(
+                    decimal.Decimal(
+                        str(
+                            data[samples[i]][wights[j]] / int(terminal['reads_quantity'][samples[i]])
+                        )
+                    )
+                )
         except:
             tmp_list.append('0')
     rows += terminal['output_sep'].join(tmp_list) + '\n'
