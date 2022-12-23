@@ -209,11 +209,7 @@ for j in range(len(wights)):
             # IF WE'RE USING RELATIVE MODE
             else:
                 tmp_list.append(
-                    str(
-                        decimal.Decimal(
-                            data[samples[i]][wights[j]] / int(terminal['reads_quantity'][samples[i]])
-                        )
-                    )
+                        f"{decimal.Decimal(data[samples[i]][wights[j]] / int(terminal['reads_quantity'][samples[i]])):.20f}"
                 )
         except:
             tmp_list.append('0')
