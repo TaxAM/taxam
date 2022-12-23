@@ -101,7 +101,7 @@ def readReads(args):
                         taxon = 'NA'
                 except:
                     taxon = 'NA'
-                if taxon == 'NA':
+                if taxon.upper().endswith('NA'):
                     continue
                 # EX {'READA': ['R2']}
                 if read_id in counter.keys():
@@ -151,7 +151,7 @@ def readContigs(args):
                 except:
                     taxon = 'NA'
 
-                if taxon == 'NA':
+                if taxon.upper().endswith('NA'):
                     continue
 
                 contig_tax[contig_id] = taxon
@@ -184,7 +184,7 @@ def readMapping(args, counter, contig_tax):
                 taxon = contig_tax[line[1]]
                 read_id = line[0]
 
-                if taxon == 'NA':
+                if taxon.upper().endswith('NA'):
                         continue
 
                 if read_id in counter.keys():
